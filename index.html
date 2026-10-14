@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rihas | Top 1% SQL Data Analyst Mastery OS (Indian Interview Edition)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            sql: {
+              cyan: '#06B6D4',
+              teal: '#14B8A6',
+              emerald: '#10B981',
+              dark: '#070B14',
+              card: '#0F172A',
+              border: '#1E293B'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body {
+      background-color: #070B14;
+      color: #F1F5F9;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #070B14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #475569;
+    }
+    .glass-panel {
+      background: rgba(15, 23, 42, 0.88);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-checkbox:checked + span {
+      text-decoration: line-through;
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-sql-cyan selection:text-black">
+
+  <!-- Sticky Top Navigation Bar -->
+  <header class="sticky top-0 z-50 glass-panel border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-sql-cyan to-emerald-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-black font-extrabold text-base font-mono">
+          SQL
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-bold text-lg sm:text-xl tracking-tight text-white">Top 1% SQL Mastery OS</h1>
+            <span class="hidden md:inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-500/10 text-sql-cyan border border-cyan-500/30">
+              🇮🇳 Indian Interview Edition
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Rihas Ahamed Habeeb • Senior Data Analyst & BI Developer (PostgreSQL / T-SQL / Redshift)</p>
+        </div>
+      </div>
+
+      <!-- Timer & Global Progress -->
+      <div class="flex items-center gap-5">
+        <div class="hidden lg:flex items-center gap-2 bg-slate-900/90 border border-slate-800 px-3.5 py-1.5 rounded-xl">
+          <div class="w-2 h-2 rounded-full bg-sql-cyan animate-pulse"></div>
+          <span class="font-mono text-sm font-semibold text-slate-200" id="timer-display">45:00</span>
+          <button onclick="toggleTimer()" id="timer-btn" class="text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-sql-cyan font-medium transition">Start 45m Drill</button>
+          <button onclick="resetTimer()" class="text-xs text-slate-500 hover:text-slate-300 px-1">↺</button>
+        </div>
+
+        <div class="w-40 sm:w-56">
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-slate-400 font-medium">Top 1% Progress</span>
+            <span class="text-sql-cyan font-mono font-bold" id="global-progress-text">0%</span>
+          </div>
+          <div class="w-full h-2.5 bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
+            <div id="global-progress-bar" class="h-full bg-gradient-to-r from-sql-cyan to-emerald-400 rounded-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <button onclick="openDataModal()" title="Backup or Reset Progress" class="p-2 rounded-lg bg-slate-800/80 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs font-medium">
+          ⚙️ Data
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex overflow-x-auto border-t border-slate-800/80 no-scrollbar">
+      <button onclick="switchTab('syllabus')" id="tab-syllabus" class="nav-tab px-5 py-3 text-sm font-semibold border-b-2 border-sql-cyan text-sql-cyan whitespace-nowrap flex items-center gap-2">
+        <span>📚 10-Module Top 1% Syllabus</span>
+      </button>
+      <button onclick="switchTab('arena')" id="tab-arena" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>⚔️ Indian Interview Coding Arena (12 Live Problems)</span>
+      </button>
+      <button onclick="switchTab('vault')" id="tab-vault" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>⚡ Advanced SQL Patterns & Redshift Vault</span>
+      </button>
+      <button onclick="switchTab('scorecard')" id="tab-scorecard" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>🎯 Top 1% Scorecard (<span id="scorecard-badge">0/10</span>)</span>
+      </button>
+      <button onclick="switchTab('roadmap')" id="tab-roadmap" class="nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2">
+        <span>🗓️ 4-Week Execution & Company Tiers</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+    <!-- ==================== TAB 1: 10-MODULE SYLLABUS ==================== -->
+    <section id="view-syllabus" class="space-y-8">
+      <!-- Top Hero Overview -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 glass-panel rounded-2xl p-6 border border-slate-800 relative overflow-hidden">
+          <div class="absolute -right-10 -top-10 w-44 h-44 bg-cyan-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-cyan-500/20 text-sql-cyan">10 Modules • Foundation to Top 1%</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-emerald-500/20 text-emerald-300">Swiggy, Razorpay, Flipkart, GST & Big 4 Scenarios</span>
+            <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-purple-500/20 text-purple-300">Redshift + T-SQL + PostgreSQL</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-2">What Separates a Top 1% SQL Data Analyst in India?</h2>
+          <p class="text-sm text-slate-300 leading-relaxed mb-4">
+            80% of candidates stop at basic <code class="text-sql-cyan">INNER JOIN</code>, <code class="text-sql-cyan">GROUP BY</code>, and <code class="text-sql-cyan">ROW_NUMBER()</code>. The <strong>Top 1%</strong> win senior offers because they handle <strong>NULL traps</strong>, write <strong>Gaps & Islands / Sessionization</strong> queries without hints, reconcile <strong>GST & UPI ledgers</strong> down to the paisa, design <strong>Sargable queries</strong>, and optimize <strong>Amazon Redshift DISTKEY/SORTKEY</strong> & execution plans.
+          </p>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">SQL Concepts</div>
+              <div class="text-lg font-bold text-white font-mono mt-0.5" id="stat-concepts">0 / 0</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Indian Scenarios</div>
+              <div class="text-lg font-bold text-emerald-400 font-mono mt-0.5" id="stat-scenarios">0 / 0</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Arena Solved</div>
+              <div class="text-lg font-bold text-sql-cyan font-mono mt-0.5" id="stat-arena">0 / 12</div>
+            </div>
+            <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-3">
+              <div class="text-xs text-slate-400">Mastery Gates</div>
+              <div class="text-lg font-bold text-amber-400 font-mono mt-0.5" id="stat-gates">0 / 10</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Top 1% Live Coding Checklist -->
+        <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <h3 class="text-sm font-bold uppercase tracking-wider text-sql-cyan">5 Habits of Top 1% SQL Candidates</h3>
+              <span class="text-xs text-slate-400">Live Screen Rule</span>
+            </div>
+            <ol class="space-y-2.5 text-xs sm:text-sm">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-sql-cyan text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <span class="text-slate-300"><strong class="text-white">Clarify the Grain First:</strong> Before typing <code class="text-sql-cyan">SELECT</code>, ask: "Can a customer have multiple orders on the same timestamp? Are there NULLs or negative refunds?"</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-sql-cyan text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <span class="text-slate-300"><strong class="text-white">Modular CTEs Over Nested Subqueries:</strong> Name CTEs by business step (<code class="text-sql-cyan">WITH Deduplicated_Invoices AS (...)</code>) so the interviewer follows your logic effortlessly.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-sql-cyan text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <span class="text-slate-300"><strong class="text-white">Defensive Division & NULLs:</strong> Always wrap denominators in <code class="text-sql-cyan">NULLIF(denom, 0)</code> and use <code class="text-sql-cyan">NOT EXISTS</code> instead of <code class="text-sql-cyan">NOT IN</code>.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-sql-cyan text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">4</span>
+                <span class="text-slate-300"><strong class="text-white">Sargable Predicates:</strong> Never wrap an indexed date column in <code class="text-sql-cyan">YEAR()</code> or <code class="text-sql-cyan">CAST()</code> inside <code class="text-sql-cyan">WHERE</code>.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-slate-800 text-sql-cyan text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">5</span>
+                <span class="text-slate-300"><strong class="text-white">State the Complexity:</strong> Proactively mention if your query triggers a sort, hash join, or window spill on 100M+ rows.</span>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phase Filter & Search Bar -->
+      <div class="flex flex-col sm:flex-row gap-4 items-center justify-between glass-panel p-4 rounded-xl border border-slate-800">
+        <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+          <button onclick="filterPhase('all')" id="phase-btn-all" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sql-cyan text-black transition">All 10 Modules</button>
+          <button onclick="filterPhase(1)" id="phase-btn-1" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 1: Core & Joins (M1–M3)</button>
+          <button onclick="filterPhase(2)" id="phase-btn-2" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 2: Windows & CTEs (M4–M5)</button>
+          <button onclick="filterPhase(3)" id="phase-btn-3" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 3: Indian Business Logic (M6–M7)</button>
+          <button onclick="filterPhase(4)" id="phase-btn-4" class="phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition">Phase 4: Top 1% Tuning & Redshift (M8–M10)</button>
+        </div>
+        <div class="relative w-full sm:w-72">
+          <input type="text" id="module-search" oninput="renderSyllabus()" placeholder="Search SQL topic (e.g. Islands, GST, Redshift)..." class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-9 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-sql-cyan">
+          <span class="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
+        </div>
+      </div>
+
+      <!-- Modules Container -->
+      <div id="syllabus-container" class="space-y-6"></div>
+    </section>
+
+    <!-- ==================== TAB 2: INDIAN INTERVIEW CODING ARENA ==================== -->
+    <section id="view-arena" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-sql-cyan">Hands-On Live Coding Simulator</span>
+          <h2 class="text-xl font-bold text-white mt-1">⚔️ 12 Real Indian SQL Interview Problems (Write Without Notes)</h2>
+          <p class="text-sm text-slate-400 mt-1">Select a scenario below, inspect the schema & edge cases, type your SQL query in the scratchpad (auto-saved), and compare it against the Top 1% production solution.</p>
+        </div>
+        <div class="flex flex-wrap gap-2 shrink-0" id="arena-filter-buttons">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Left 4 Columns: Problem List -->
+        <div class="lg:col-span-4 space-y-2.5 max-h-[750px] overflow-y-auto pr-1" id="arena-list-container">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Right 8 Columns: Active Problem Workspace -->
+        <div class="lg:col-span-8" id="arena-workspace-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: ADVANCED SQL & REDSHIFT VAULT ==================== -->
+    <section id="view-vault" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h2 class="text-xl font-bold text-white mb-1">⚡ Top 1% SQL Pattern & Cloud Data Warehouse Vault</h2>
+        <p class="text-sm text-slate-400">Battle-tested SQL blueprints for Gaps & Islands, GST Reconciliation, Sargable Date Ranges, Cohort Retention, and Amazon Redshift / SQL Server Optimization.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6" id="vault-container">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: TOP 1% SCORECARD (0/10) ==================== -->
+    <section id="view-scorecard" class="hidden space-y-6">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Final Quality Gate</span>
+          <h2 class="text-2xl font-bold text-white mt-1">Top 1% SQL Interview Readiness Scorecard</h2>
+          <p class="text-sm text-slate-400 mt-1">Only check a pillar when you can write the query on a blank shared screen in under 7 minutes and explain its execution plan under follow-up questioning.</p>
+        </div>
+        <div class="bg-slate-900 border border-slate-800 px-6 py-4 rounded-2xl flex items-center gap-4 shrink-0">
+          <div class="text-right">
+            <div class="text-xs text-slate-400 uppercase font-semibold">Readiness Gate</div>
+            <div class="text-3xl font-extrabold text-sql-cyan font-mono" id="scorecard-big-number">0 / 10</div>
+          </div>
+          <div id="scorecard-status-pill" class="px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+            In Progress
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="scorecard-grid">
+        <!-- Populated by JS -->
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: 4-WEEK ROADMAP & INDIAN COMPANY TIERS ==================== -->
+    <section id="view-roadmap" class="hidden space-y-8">
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-6">
+          <div>
+            <h2 class="text-xl font-bold text-white">🗓️ 4-Week Intensive SQL Execution Plan (1–1.5 Hours/Day)</h2>
+            <p class="text-sm text-slate-400">Designed to run in parallel with your Power BI prep so you dominate both coding screens and architecture rounds.</p>
+          </div>
+          <span class="px-3 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-sql-cyan text-xs font-semibold">
+            Target: 50+ Hand-Written Queries
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="weeks-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- How Indian Companies Test SQL Matrix -->
+      <div class="glass-panel rounded-2xl p-6 border border-slate-800">
+        <h3 class="text-lg font-bold text-white mb-2">🇮🇳 What Each Indian Interview Tier Actually Tests in SQL</h3>
+        <p class="text-sm text-slate-400 mb-6">Calibrate how you write and explain your SQL depending on the company sitting across the screen.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-blue-500/20 text-blue-300">Service IT & Enterprise</span>
+              <span class="text-xs text-slate-500">TCS, Infosys, LTIMindtree, Cognizant, Wipro</span>
+            </div>
+            <h4 class="font-bold text-white text-base">Speed, Syntax Accuracy & Classic Traps</h4>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+              <li><strong>Row-Counts on Joins:</strong> "Table A has 5 rows (1, 1, 2, NULL, 3) and Table B has 4 rows (1, 2, 2, NULL). How many rows in INNER, LEFT, FULL OUTER?"</li>
+              <li><strong>Ranking & Deduplication:</strong> 2nd/Nth highest salary per department (<code class="text-sql-cyan">DENSE_RANK</code> vs <code class="text-sql-cyan">ROW_NUMBER</code>), deleting duplicates using CTE.</li>
+              <li><strong>DDL/DML & Views:</strong> <code class="text-sql-cyan">DELETE</code> vs <code class="text-sql-cyan">TRUNCATE</code> vs <code class="text-sql-cyan">DROP</code>, <code class="text-sql-cyan">WHERE</code> vs <code class="text-sql-cyan">HAVING</code>, Clustered vs Non-Clustered indexes.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-purple-500/20 text-purple-300">Big 4 & Analytics Firms</span>
+              <span class="text-xs text-slate-500">Deloitte, EY, KPMG, PwC, Fractal, Tiger, Tredence</span>
+            </div>
+            <h4 class="font-bold text-white text-base">Business Cases, Reconciliation & Multi-Step CTEs</h4>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+              <li><strong>Financial & GST Recon:</strong> Full Outer Join reconciliation between ERP Sales and GSTR-2B portal logs; isolating mismatched tax amounts.</li>
+              <li><strong>Time-Series & MoM/YoY:</strong> Indian Fiscal Year (Apr–Mar) YTD rollups, rolling 3-month averages, and customer churn definitions.</li>
+              <li><strong>ETL to BI Handoff:</strong> Why you materialize heavy SQL logic into a staging table/view rather than doing it in Power Query or DAX.</li>
+            </ul>
+          </div>
+
+          <div class="bg-slate-900/90 border border-slate-800 rounded-xl p-5 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2.5 py-1 rounded text-xs font-bold bg-emerald-500/20 text-emerald-300">Product, FinTech & GCCs (Top 1%)</span>
+              <span class="text-xs text-slate-500">Swiggy, Razorpay, Cred, Flipkart, JP Morgan, Walmart, Target</span>
+            </div>
+            <h4 class="font-bold text-white text-base">Gaps & Islands, Cohorts & Warehouse Internals</h4>
+            <ul class="text-xs text-slate-300 space-y-2 list-disc pl-4">
+              <li><strong>Pattern Recognition:</strong> Consecutive login streaks (Gaps & Islands), 30-minute clickstream sessionization, Pareto 80/20 cumulative revenue.</li>
+              <li><strong>Funnel & Retention:</strong> Month-0 to Month-3 cohort retention matrices, UPI retry success rates within 5 minutes of failure.</li>
+              <li><strong>Cloud DW Tuning:</strong> Redshift <code class="text-sql-cyan">DISTKEY</code> / <code class="text-sql-cyan">SORTKEY</code> skew, broadcast vs redistribution joins, Sargability, and window frame optimization.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Data Backup & Reset Modal -->
+  <div id="data-modal" class="fixed inset-0 z-50 hidden bg-black/75 flex items-center justify-center p-4">
+    <div class="glass-panel max-w-md w-full rounded-2xl p-6 border border-slate-700 space-y-4">
+      <div class="flex justify-between items-center">
+        <h3 class="font-bold text-lg text-white">SQL Mastery Progress Backup</h3>
+        <button onclick="closeDataModal()" class="text-slate-400 hover:text-white">✕</button>
+      </div>
+      <p class="text-xs text-slate-300">All checkboxes, solved coding arena queries, and personal notes are saved automatically in your browser's <code class="text-sql-cyan">localStorage</code>.</p>
+      <div class="flex flex-col gap-2.5 pt-2">
+        <button onclick="downloadBackupJSON()" class="w-full py-2.5 px-4 rounded-xl bg-sql-cyan text-black font-bold text-xs hover:bg-cyan-400 transition">
+          ⬇️ Download SQL Progress Backup (.json)
+        </button>
+        <button onclick="resetAllProgress()" class="w-full py-2.5 px-4 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 font-semibold text-xs hover:bg-red-500/20 transition">
+          🗑️ Reset All Checkboxes & Saved Queries
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Data & Engine -->
+  <script>
+    // =========================================================================
+    // 1. 10-MODULE TOP 1% SQL SYLLABUS DATA
+    // =========================================================================
+    const SQL_MODULES = [
+      {
+        id: "sql_m1",
+        num: 1,
+        phase: 1,
+        phaseName: "Phase 1 — Execution Internals, Joins & Aggregations",
+        title: "Logical Query Execution Order & The Infamous NULL Traps",
+        priority: "Critical",
+        learn: [
+          "Exact Logical Execution Order: FROM/JOIN → WHERE → GROUP BY → HAVING → Window Functions (OVER) → SELECT → DISTINCT → UNION/ORDER BY → LIMIT/TOP.",
+          "Why column aliases defined in SELECT cannot be referenced in WHERE, GROUP BY, or HAVING (except in dialect extensions), and why Window Functions can only appear in SELECT and ORDER BY.",
+          "Three-Valued Logic (TRUE, FALSE, UNKNOWN) with NULLs: why `col = NULL` and `col <> NULL` always evaluate to UNKNOWN (zero rows).",
+          "The `NOT IN` vs `NOT EXISTS` Catastrophe: why `WHERE id NOT IN (SELECT id FROM table_with_null)` returns 0 rows, and why `NOT EXISTS` is NULL-safe.",
+          "COALESCE vs ISNULL vs NULLIF: defensive arithmetic (` amount / NULLIF(qty, 0) `) to prevent divide-by-zero crashes in production pipelines.",
+          "`COUNT(*)` vs `COUNT(1)` vs `COUNT(col)` vs `COUNT(DISTINCT col)`: how each handles NULL values."
+        ],
+        scenarios: [
+          "Explain why `SELECT dept_id, salary, RANK() OVER (ORDER BY salary DESC) AS rnk FROM emp WHERE rnk = 1` throws a syntax error, and how to fix it.",
+          "A marketing analyst wrote `WHERE customer_status <> 'Churned'`, which accidentally dropped 40,000 new customers whose status was `NULL`. Write the NULL-safe predicate.",
+          "Explain what happens to `AVG(discount_amt)` when 30% of rows have `NULL` vs `0`."
+        ],
+        masteryTest: "Write a single query demonstrating `COALESCE`, `NULLIF`, and `IS DISTINCT FROM` (or NULL-safe inequality) and explain the 9-step execution order without notes.",
+        blueprint: `• NULL-Safe Inequality Fix:
+  Never write: WHERE customer_status <> 'Churned' (drops NULLs!)
+  Write: WHERE customer_status <> 'Churned' OR customer_status IS NULL
+  Or in Postgres/Redshift: WHERE customer_status IS DISTINCT FROM 'Churned'
+  Or: WHERE COALESCE(customer_status, 'Active') <> 'Churned' (Note: wrapping indexed columns in COALESCE can hurt index usage unless filtered carefully).`
+      },
+      {
+        id: "sql_m2",
+        num: 2,
+        phase: 1,
+        phaseName: "Phase 1 — Execution Internals, Joins & Aggregations",
+        title: "Joins, Anti-Joins, Non-Equi Joins & Row-Count Arithmetic",
+        priority: "Critical",
+        learn: [
+          "Row-Count Mental Math: predicting exact output rows for INNER, LEFT, RIGHT, FULL OUTER, and CROSS JOIN when duplicate keys and NULLs exist in both tables.",
+          "Filter Placement Trap in Outer Joins: placing a right-table filter inside the `ON` clause (`LEFT JOIN b ON a.id = b.id AND b.status = 'Completed'`) vs placing it in the `WHERE` clause (which silently converts the LEFT JOIN into an INNER JOIN!).",
+          "Left Anti-Join (`LEFT JOIN ... WHERE b.id IS NULL`) vs `NOT EXISTS` for finding missing records, unbilled shipments, and orphan keys.",
+          "Self-Joins: Employee → Manager hierarchies, finding pairs of products bought in the same cart (`a.order_id = b.order_id AND a.product_id < b.product_id`).",
+          "Non-Equi Joins (Range Joins): joining transactions to a promotional campaign or SCD Type 2 table using `ON t.txn_date BETWEEN c.start_date AND c.end_date`.",
+          "Set Operations: `UNION ALL` vs `UNION` (why `UNION` triggers an expensive deduplication sort), `INTERSECT`, and `EXCEPT` / `MINUS`."
+        ],
+        scenarios: [
+          "Table A has values `(1, 1, 2, 3, NULL)` and Table B has `(1, 1, 1, 2, 4, NULL)`. State the exact row count for INNER, LEFT, RIGHT, and FULL OUTER JOIN on `A.id = B.id`.",
+          "Find all customers who registered in 2026 but have NEVER placed a successful order (and explain why placing `o.status = 'Success'` in `WHERE` breaks a `LEFT JOIN`).",
+          "Find all pairs of products frequently bought together in the same Flipkart order without repeating pairs like (A,B) and (B,A) or pairing (A,A)."
+        ],
+        masteryTest: "Solve the Table A × Table B duplicate/NULL join row-count question in under 60 seconds and write a bug-free Left Anti-Join with a secondary status filter.",
+        blueprint: `• Row-Count Calculation (A: [1, 1, 2, 3, NULL] vs B: [1, 1, 1, 2, 4, NULL]):
+  - Key '1': 2 rows in A × 3 rows in B = 6 rows.
+  - Key '2': 1 row in A × 1 row in B = 1 row.
+  - Key '3': 1 row in A × 0 in B = 0 in INNER, 1 in LEFT/FULL.
+  - Key '4': 0 in A × 1 in B = 0 in INNER/LEFT, 1 in RIGHT/FULL.
+  - NULLs: NEVER match each other in standard SQL (`NULL = NULL` is UNKNOWN).
+  -> INNER JOIN = 6 + 1 = 7 rows.
+  -> LEFT JOIN = 7 matched + 1 ('3') + 1 (A's NULL) = 9 rows.
+  -> RIGHT JOIN = 7 matched + 1 ('4') + 1 (B's NULL) = 9 rows.
+  -> FULL OUTER JOIN = 7 matched + 2 unmatched from A + 2 unmatched from B = 11 rows!`
+      },
+      {
+        id: "sql_m3",
+        num: 3,
+        phase: 1,
+        phaseName: "Phase 1 — Execution Internals, Joins & Aggregations",
+        title: "Conditional Aggregation, Pivoting & Pareto (80/20) Analytics",
+        priority: "Critical",
+        learn: [
+          "Conditional Aggregation (`SUM(CASE WHEN ... THEN ... END)` and `COUNT(CASE WHEN ... THEN 1 END)`): pivoting rows into columns in a single table scan.",
+          "`WHERE` (filters atomic rows before grouping) vs `HAVING` (filters aggregated groups after `GROUP BY`).",
+          "Filtering on multiple conditions within a group: e.g., finding customers who bought *both* 'Electronics' AND 'Apparel', but *never* 'Groceries' using `HAVING`.",
+          "`GROUPING SETS`, `ROLLUP`, and `CUBE` for generating subtotals and grand totals in a single pass.",
+          "String Aggregation: `STRING_AGG(col, ', ' WITHIN GROUP (ORDER BY ...))` / `LISTAGG()` in Redshift for concatenating multi-value rows per customer."
+        ],
+        scenarios: [
+          "Write a single query to pivot monthly sales into columns (`Apr_Sales`, `May_Sales`, `Jun_Sales`, `Q1_Total`) for each region without using vendor-specific `PIVOT` syntax.",
+          "Find users on PhonePe who have made at least 3 'P2M' (Merchant) payments AND at least 1 'BillPay' transaction in the same month.",
+          "Calculate the conversion funnel rate (Viewed → Added to Cart → Checkout → Paid) in a single table scan over an events table."
+        ],
+        masteryTest: "Write a single-scan conditional aggregation funnel query that calculates stage counts and step-to-step drop-off percentages with zero subqueries.",
+        blueprint: `• Single-Scan Relational Division (Bought Both X and Y):
+  SELECT customer_id
+  FROM orders
+  GROUP BY customer_id
+  HAVING COUNT(DISTINCT CASE WHEN category = 'Electronics' THEN order_id END) >= 1
+     AND COUNT(DISTINCT CASE WHEN category = 'Apparel' THEN order_id END) >= 1
+     AND COUNT(DISTINCT CASE WHEN category = 'Groceries' THEN order_id END) = 0;`
+      },
+      {
+        id: "sql_m4",
+        num: 4,
+        phase: 2,
+        phaseName: "Phase 2 — Window Functions, CTEs & Pattern Recognition",
+        title: "Window Functions Mastery (Ranking, Offsets & Custom Frames)",
+        priority: "Critical",
+        learn: [
+          "Ranking Trio: `ROW_NUMBER()` (unique sequential 1,2,3,4), `RANK()` (ties leave gaps 1,2,2,4), `DENSE_RANK()` (ties leave no gaps 1,2,2,3), and `NTILE(n)` (deciles/quartiles).",
+          "Offset Functions: `LAG(col, offset, default)` and `LEAD(col, offset, default)` for MoM growth, time between orders, and status transitions.",
+          "Value Functions: `FIRST_VALUE()`, `LAST_VALUE()`, and why `LAST_VALUE()` requires an explicit frame (`ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING`) or else it defaults to the current row!",
+          "Window Frame Clauses: `ROWS BETWEEN` (physical row offsets) vs `RANGE BETWEEN` (logical value/peer offsets—and why default `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW` merges duplicate values in running totals).",
+          "Rolling Windows: `AVG(sales) OVER (PARTITION BY store_id ORDER BY sale_date ROWS BETWEEN 6 PRECEDING AND CURRENT ROW)` for 7-day moving averages.",
+          "Deduplication Pattern: using `ROW_NUMBER() OVER (PARTITION BY business_key ORDER BY updated_at DESC)` inside a CTE (or `QUALIFY` in Snowflake/Databricks/Redshift)."
+        ],
+        scenarios: [
+          "Find the 2nd highest salary in every department, ensuring that if two employees tie for 1st place, the next salary is still returned as 2nd (`DENSE_RANK`), and departments with only 1 employee return `NULL`.",
+          "Calculate a 3-month rolling average of revenue per product category, plus the % difference against the previous month (`LAG`).",
+          "Explain why `SUM(amount) OVER (ORDER BY txn_date)` gives unexpected jumps when multiple transactions share the same `txn_date`, and how `ROWS BETWEEN` fixes it."
+        ],
+        masteryTest: "Write 6 window queries from memory: Top-N per group, Deduplication, MoM Growth %, 7-Day Rolling Average, Cumulative Pareto 80% cutoff, and `LAST_VALUE` with proper framing.",
+        blueprint: `• The Default Window Frame Trap (Top 1% Interview Question!):
+  When you write SUM(amount) OVER (ORDER BY txn_date), SQL defaults to:
+  RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW.
+  Because it uses RANGE, all rows with the exact same 'txn_date' are treated as peers and summed together at once!
+  To get a strict row-by-row running total, ALWAYS specify:
+  SUM(amount) OVER (ORDER BY txn_date, txn_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW).`
+      },
+      {
+        id: "sql_m5",
+        num: 5,
+        phase: 2,
+        phaseName: "Phase 2 — Window Functions, CTEs & Pattern Recognition",
+        title: "CTEs, Recursive Queries, Gaps & Islands & Sessionization",
+        priority: "Critical",
+        learn: [
+          "Modular CTE design vs Temp Tables (`#temp`) vs Views: when CTEs are inlined vs materialized by the query optimizer.",
+          "The Classic 'Gaps and Islands' Pattern: subtracting `ROW_NUMBER()` from a date or integer sequence (`login_date - INTERVAL '1 day' * ROW_NUMBER()`) to create a constant grouping key (`island_id`) for consecutive streaks.",
+          "Clickstream Sessionization: using `LAG(event_time)` to flag gaps > 30 minutes (`CASE WHEN DATEDIFF(minute, prev_time, event_time) > 30 THEN 1 ELSE 0 END`), followed by a cumulative `SUM()` to assign `session_id`.",
+          "Recursive CTEs (`WITH RECURSIVE`): generating missing calendar dates, exploding summary counts into individual rows, and traversing multi-level org charts (`EmpID -> ManagerID -> VP`).",
+          "State-Duration & Overlapping Date Ranges: merging overlapping subscription or campaign intervals."
+        ],
+        scenarios: [
+          "Find all Swiggy delivery partners who completed at least 10 deliveries per day for 5 or more consecutive days (Gaps & Islands).",
+          "Given raw app clickstream events (`user_id`, `event_timestamp`), group events into sessions where a session expires after 30 minutes of inactivity, and calculate average session duration.",
+          "An HR table has `emp_id`, `emp_name`, and `manager_id`. Write a Recursive CTE to output each employee's management chain path (`CEO -> VP -> Manager -> Analyst`) and hierarchy level."
+        ],
+        masteryTest: "Solve both a Consecutive Streak (Gaps & Islands) problem and a 30-Minute Sessionization problem from scratch in under 15 minutes.",
+        blueprint: `• Gaps & Islands Mathematical Intuition:
+  Suppose a user logs in on Jan 10, Jan 11, Jan 12 (streak 1), skips Jan 13, and logs in Jan 14, Jan 15 (streak 2).
+  Row numbers are: 1, 2, 3, and 4, 5.
+  Subtract Row Number (in days) from Login Date:
+  - Jan 10 - 1 day = Jan 09
+  - Jan 11 - 2 days = Jan 09
+  - Jan 12 - 3 days = Jan 09  --> All 3 rows yield 'Jan 09' (Island 1!)
+  - Jan 14 - 4 days = Jan 10
+  - Jan 15 - 5 days = Jan 10  --> Both rows yield 'Jan 10' (Island 2!)
+  Group by (user_id, island_date) and COUNT(*) >= 5!`
+      },
+      {
+        id: "sql_m6",
+        num: 6,
+        phase: 3,
+        phaseName: "Phase 3 — Indian Business Scenarios (FY, GST, UPI & E-Commerce)",
+        title: "Indian Financial Year (Apr–Mar), Cohorts & Retention Matrices",
+        priority: "Critical",
+        learn: [
+          "Deriving the Indian Financial Year (April 1 to March 31) and Fiscal Quarter (Q1 = Apr–Jun, Q2 = Jul–Sep, Q3 = Oct–Dec, Q4 = Jan–Mar) dynamically in SQL using `CASE` or `DATEADD(month, -3, txn_date)`.",
+          "Calculating Fiscal YTD (FYTD) and Prior Fiscal YTD comparisons directly in SQL.",
+          "Customer Cohort Retention Analysis: identifying each user's `cohort_month` (`MIN(DATE_TRUNC('month', order_date))`), calculating `month_number` offset (`0, 1, 2, 3...`), and pivoting retention % across months.",
+          "New vs Repeat vs Reactivated vs Churned Customer classification per month.",
+          "Handling UTC to IST (`+05:30`) timezone conversions (`AT TIME ZONE 'Asia/Kolkata'`) so midnight orders between 12:00 AM and 5:30 AM IST aren't bucketed into the wrong day."
+        ],
+        scenarios: [
+          "Write a SQL query that tags every transaction date with its Indian Financial Year (e.g., `'FY2025-26'` for `2026-02-15` and `'FY2026-27'` for `2026-04-10`) and Indian Fiscal Quarter (`FQ1`–`FQ4`).",
+          "Build a Month-0 to Month-3 Cohort Retention table for a D2C brand showing cohort size and % of users returning in M1, M2, and M3.",
+          "Why did yesterday's daily sales SQL report mismatch the Power BI dashboard for orders placed between 12:00 AM and 5:30 AM IST?"
+        ],
+        masteryTest: "Write the `DATEADD(month, -3, ...)` Indian Fiscal Year & Quarter trick and a complete Cohort Retention query without looking at references.",
+        blueprint: `• The Elegant 1-Line Indian FY Trick (Subtract 3 Months!):
+  If you shift any date back by 3 months (April becomes January of the same year; March becomes December of the prior year):
+  - Fiscal Year Start Year = YEAR(DATEADD(month, -3, order_date))
+  - Fiscal Quarter (1 to 4) = QUARTER(DATEADD(month, -3, order_date))
+  - Fiscal Month (1 to 12)  = MONTH(DATEADD(month, -3, order_date))`
+      },
+      {
+        id: "sql_m7",
+        num: 7,
+        phase: 3,
+        phaseName: "Phase 3 — Indian Business Scenarios (FY, GST, UPI & E-Commerce)",
+        title: "GST Reconciliation, UPI Payment Retries & E-Commerce Returns",
+        priority: "Critical",
+        learn: [
+          "Two-Way Reconciliation Pattern (`FULL OUTER JOIN` on `COALESCE(a.inv_no, b.inv_no)`): categorizing records into `'Exact Match'`, `'Tax Amount Mismatch'`, `'Missing in GSTR-2B'`, and `'Missing in ERP Books'`.",
+          "Handling Credit Notes, Cancelled Invoices, and B2B vs B2C GSTIN validation in financial queries.",
+          "FinTech / UPI Payment Funnel: isolating failed UPI transactions (`INSUFFICIENT_FUNDS`, `BANK_TIMEOUT`) that were successfully retried by the same user within 5 minutes (`LEAD(status)` and `LEAD(txn_time)`).",
+          "E-Commerce Net GMV vs Gross GMV: accounting for partial item cancellations, RTO (Return to Origin), and promotional wallet cashback attribution.",
+          "HR & Payroll Scenarios: SCD Type 2 historical department lookups and headcount reconciliation."
+        ],
+        scenarios: [
+          "Reconcile our company's Purchase Register (`erp_purchases`) against the government GST portal (`gstr_2b_portal`) on `gstin` and `invoice_no`, flagging mismatches > ₹1.00.",
+          "On Razorpay/PhonePe, find the % of failed UPI transactions where the user switched to another payment method or retried and succeeded within 10 minutes.",
+          "Calculate Category Net Revenue after deducting item-level returns, noting that returns can happen up to 30 days after the original order month."
+        ],
+        masteryTest: "Write a production-ready `FULL OUTER JOIN` GST reconciliation query that handles NULL amounts safely and outputs clear audit status buckets.",
+        blueprint: `• Why COALESCE is Mandatory in FULL OUTER JOIN Reconciliations:
+  In a FULL OUTER JOIN between Table A and Table B:
+  - If a record is missing in B, B.invoice_no is NULL and B.tax_amt is NULL.
+  - Always SELECT COALESCE(a.invoice_no, b.invoice_no) AS invoice_no.
+  - Always compare ABS(COALESCE(a.tax_amt, 0) - COALESCE(b.tax_amt, 0)) > 1.00 so NULLs don't turn the subtraction into NULL!`
+      },
+      {
+        id: "sql_m8",
+        num: 8,
+        phase: 4,
+        phaseName: "Phase 4 — Top 1% Query Optimization, Redshift & BI Engineering",
+        title: "Query Optimization, Sargability, Indexes & Execution Plans",
+        priority: "Critical",
+        learn: [
+          "Sargability (Search Argument Able): why wrapping an indexed column in a function (`WHERE YEAR(order_date) = 2026`, `WHERE UPPER(email) = ...`, `WHERE COALESCE(status,'') = ...`) blinds the B-Tree index and forces a Full Table Scan.",
+          "Clustered Index (defines physical sort order of data pages, 1 per table) vs Non-Clustered Index (separate B-Tree pointers to row locators; Key Lookup vs Covering Index with `INCLUDE`).",
+          "Composite Index Left-Prefix Rule: why an index on `(region_id, order_date, status)` accelerates `WHERE region_id = 1 AND order_date = ...` but CANNOT be used if your query only filters on `WHERE status = 'Paid'`.",
+          "Physical Join Operators in Execution Plans: **Nested Loop Join** (small indexed outer × inner), **Merge Join** (both inputs pre-sorted on join key—super fast), **Hash Match Join** (large unsorted inputs; builds in-memory hash table).",
+          "Implicit Type Conversion Trap: joining or filtering a `VARCHAR` column against an `INT` literal forces the engine to `CAST` every row in the table, destroying index usage.",
+          "Replacing correlated subqueries and multiple self-joins with a single Window Function pass."
+        ],
+        scenarios: [
+          "A query filtering `WHERE CAST(created_at AS DATE) = '2026-10-01'` on a 90-million-row table takes 45 seconds despite having an index on `created_at`. Rewrite it to run in < 50ms.",
+          "An interviewer asks: 'We added Non-Clustered Indexes on every single column of our Fact table to make reports faster, and now nightly ETL loads take 4 hours.' Explain why.",
+          "Look at a slow query that joins two tables 4 times to get Q1, Q2, Q3, and Q4 metrics. Rewrite it to scan the table only once."
+        ],
+        masteryTest: "Identify 5 performance killers in a slow SQL query and rewrite it using Sargable predicates, Covering Index principles, and single-pass Window/Conditional logic.",
+        blueprint: `• Sargable Date Rewrite:
+  ❌ Non-Sargable (Full Scan): WHERE CAST(created_at AS DATE) = '2026-10-01'
+  ✅ Sargable (Index Seek):    WHERE created_at >= '2026-10-01 00:00:00' AND created_at < '2026-10-02 00:00:00'`
+      },
+      {
+        id: "sql_m9",
+        num: 9,
+        phase: 4,
+        phaseName: "Phase 4 — Top 1% Query Optimization, Redshift & BI Engineering",
+        title: "Cloud Data Warehouse Internals (Amazon Redshift, Azure & Fabric)",
+        priority: "High",
+        learn: [
+          "Row-Store (OLTP: Postgres/SQL Server) vs Columnar Storage (OLAP: Amazon Redshift, Snowflake, Synapse, Fabric Warehouse): why `SELECT *` is a cardinal sin in columnar warehouses.",
+          "Amazon Redshift Distribution Styles: `DISTSTYLE KEY` (colocates joining rows on the same compute slice to eliminate network redistribution), `DISTSTYLE ALL` (broadcasts small dimension tables to every node), `DISTSTYLE EVEN`, and `DISTSTYLE AUTO`.",
+          "Amazon Redshift `SORTKEY` (Compound vs Interleaved) and Zone Maps (1MB block min/max metadata that lets Redshift skip 99% of disk blocks without reading them).",
+          "Diagnosing Redshift Query Bottlenecks in `EXPLAIN`: spotting `DS_BCAST_INNER` (broadcasting a huge table) or `DS_DIST_BOTH` (redistributing both huge tables across the network) vs ideal `DS_DIST_NONE`.",
+          "Compression Encodings (`AZ64`, `ZSTD`, `LZO`), `VACUUM` (reclaiming deleted space & re-sorting), and `ANALYZE` (updating optimizer statistics).",
+          "Microsoft Fabric Warehouse / Lakehouse SQL Endpoint: Delta Parquet files, V-Order optimization, and Direct Lake compatibility."
+        ],
+        scenarios: [
+          "In Amazon Redshift, joining a 200M-row `fact_orders` table with a 50M-row `fact_shipments` table on `order_id` is saturating network I/O (`DS_DIST_BOTH`). How do you redesign the table DDL?",
+          "Why does applying a function or failing to filter on the `SORTKEY` column in Redshift cause massive disk I/O even on a small date range?",
+          "How do you choose between `DISTSTYLE ALL` and `DISTSTYLE KEY` for a 50,000-row `dim_product` table vs a 40-million-row `dim_customer` table in Redshift?"
+        ],
+        masteryTest: "Write an optimal Amazon Redshift `CREATE TABLE` DDL for a Fact table and Dimension table specifying `DISTKEY`, `SORTKEY`, and compression, and explain Zone Maps.",
+        blueprint: `• Amazon Redshift Top 1% Interview Answer:
+  1) Set both fact_orders and fact_shipments to DISTSTYLE KEY DISTKEY(order_id) -> matching order_ids live on the exact same node slice, turning the join into DS_DIST_NONE (zero network shuffle!).
+  2) Set small dimensions (<2M rows, e.g., dim_product, dim_store) to DISTSTYLE ALL so a copy sits on every node.
+  3) Set SORTKEY(order_date) on fact_orders so Redshift's 1MB Zone Maps immediately skip historical blocks when Power BI queries the current fiscal year.`
+      },
+      {
+        id: "sql_m10",
+        num: 10,
+        phase: 4,
+        phaseName: "Phase 4 — Top 1% Query Optimization, Redshift & BI Engineering",
+        title: "SQL for BI Engineering: Incremental Loads, SCD2 & Power BI Folding",
+        priority: "Critical",
+        learn: [
+          "Incremental ETL Watermark Pattern: using `WHERE modified_timestamp > (SELECT max_watermark FROM etl_control_table)` + `MERGE` (Upsert) or `DELETE + INSERT` staging patterns.",
+          "Building SCD Type 2 Dimension Tables in SQL: generating surrogate keys, closing expired records (`effective_end_date = current_date - 1, is_current = 0`), and inserting new versions.",
+          "Designing SQL Views specifically for Power BI: why Power BI Query Folding works seamlessly against SQL Views (`SELECT ... FROM vw_FactSales WHERE OrderDate >= @RangeStart`) but breaks on Stored Procedures (`EXEC sp_GetSales`).",
+          "Automated Data Quality & Reconciliation Assertions: writing SQL control checks (row count drift, duplicate PK check, orphan FK check, sum of net_sales check) before triggering a Power Automate / Power BI Service dataset refresh.",
+          "Architectural Decision Matrix: When to push logic to SQL/Redshift vs Alteryx vs Power Query (M) vs DAX."
+        ],
+        scenarios: [
+          "Write an idempotent SQL Upsert (`MERGE` or `DELETE + INSERT` transaction) in Redshift/SQL Server that loads daily incremental sales without creating duplicate rows if the job is re-run twice on the same day.",
+          "Why should you expose a clean Star Schema of SQL Views (`vw_DimCustomer`, `vw_FactSales`) to Power BI rather than letting report authors connect directly to raw base tables?",
+          "Walk through how you reconcile source SQL totals against your Power BI Semantic Model after an automated refresh."
+        ],
+        masteryTest: "Write an idempotent `DELETE + INSERT` staging transaction (Redshift best practice over MERGE) and explain the contract between SQL Views and Power BI Incremental Refresh.",
+        blueprint: `• Idempotent Redshift Incremental Load (Staging + DELETE/INSERT inside BEGIN..COMMIT):
+  BEGIN TRANSACTION;
+  -- 1. Delete any existing target rows that match incoming staging keys (handles updates & re-runs safely)
+  DELETE FROM fact.sales
+  USING staging.sales_daily_delta s
+  WHERE fact.sales.invoice_id = s.invoice_id;
+  -- 2. Insert all fresh/updated rows from staging
+  INSERT INTO fact.sales
+  SELECT * FROM staging.sales_daily_delta;
+  COMMIT TRANSACTION;`
+      }
+    ];
+
+    // =========================================================================
+    // 2. INDIAN INTERVIEW CODING ARENA (12 INTERACTIVE LIVE PROBLEMS)
+    // =========================================================================
+    const ARENA_PROBLEMS = [
+      {
+        id: "p1",
+        company: "Swiggy / Zomato",
+        difficulty: "Hard • Gaps & Islands",
+        title: "1. 5-Day Consecutive Delivery Streak Incentive",
+        prompt: "Swiggy pays a special ₹1,500 bonus to delivery partners who complete at least 12 delivered orders per day for 5 or more consecutive calendar days. Write a query to return `partner_id`, `streak_start_date`, `streak_end_date`, and `consecutive_days` for all qualifying streaks.",
+        schema: `Table: delivery_orders
+- order_id (BIGINT)
+- partner_id (INT)
+- order_date (DATE)
+- order_status (VARCHAR) -- 'DELIVERED', 'CANCELLED'`,
+        hint: "Step 1: Filter `order_status = 'DELIVERED'` and `GROUP BY partner_id, order_date HAVING COUNT(*) >= 12` to get one row per qualifying partner-day. Step 2: Subtract `ROW_NUMBER() OVER (PARTITION BY partner_id ORDER BY order_date)` (in days) from `order_date` to form an `island_group`. Step 3: Group by `partner_id, island_group` and filter `COUNT(*) >= 5`.",
+        solution: `WITH QualifyingDays AS (
+    -- Step 1: Isolate partner-days with >= 12 delivered orders (guarantees 1 row per partner per date)
+    SELECT 
+        partner_id,
+        order_date
+    FROM delivery_orders
+    WHERE order_status = 'DELIVERED'
+    GROUP BY partner_id, order_date
+    HAVING COUNT(order_id) >= 12
+),
+Islands AS (
+    -- Step 2: Subtract sequential row number from date to create a constant Island ID
+    SELECT 
+        partner_id,
+        order_date,
+        DATEADD(day, -ROW_NUMBER() OVER (PARTITION BY partner_id ORDER BY order_date), order_date) AS island_id
+    FROM QualifyingDays
+)
+-- Step 3: Aggregate consecutive islands of 5+ days
+SELECT 
+    partner_id,
+    MIN(order_date) AS streak_start_date,
+    MAX(order_date) AS streak_end_date,
+    COUNT(*) AS consecutive_days
+FROM Islands
+GROUP BY partner_id, island_id
+HAVING COUNT(*) >= 5
+ORDER BY partner_id, streak_start_date;`
+      },
+      {
+        id: "p2",
+        company: "Big 4 / FinTech GST",
+        difficulty: "Medium-Hard • Full Outer Recon",
+        title: "2. GST Purchase Register vs GSTR-2B Portal Reconciliation",
+        prompt: "During month-end close, Finance needs to reconcile the internal ERP Purchase Register (`erp_invoices`) against the government GST portal download (`gstr2b_portal`). Match on both `supplier_gstin` and `invoice_no`. Classify every invoice into: `'1_Exact_Match'` (tax difference <= ₹1), `'2_Tax_Value_Mismatch'` (difference > ₹1), `'3_Missing_in_GSTR2B'` (risk of losing Input Tax Credit!), or `'4_Missing_in_ERP'`.",
+        schema: `Table 1: erp_invoices (supplier_gstin VARCHAR, invoice_no VARCHAR, invoice_date DATE, total_gst_amt DECIMAL(12,2))
+Table 2: gstr2b_portal (supplier_gstin VARCHAR, invoice_no VARCHAR, filing_status VARCHAR, portal_gst_amt DECIMAL(12,2))`,
+        hint: "Deduplicate both tables first if needed, then use `FULL OUTER JOIN` on both `supplier_gstin` and `invoice_no`. Use `COALESCE` for all output keys and `ABS(COALESCE(e.total_gst_amt,0) - COALESCE(g.portal_gst_amt,0))` for variance.",
+        solution: `WITH ERP_Clean AS (
+    SELECT supplier_gstin, UPPER(TRIM(invoice_no)) AS invoice_no, SUM(total_gst_amt) AS erp_gst
+    FROM erp_invoices
+    GROUP BY 1, 2
+),
+Portal_Clean AS (
+    SELECT supplier_gstin, UPPER(TRIM(invoice_no)) AS invoice_no, SUM(portal_gst_amt) AS portal_gst
+    FROM gstr2b_portal
+    GROUP BY 1, 2
+)
+SELECT 
+    COALESCE(e.supplier_gstin, p.supplier_gstin) AS supplier_gstin,
+    COALESCE(e.invoice_no, p.invoice_no) AS invoice_no,
+    COALESCE(e.erp_gst, 0.00) AS erp_gst_amt,
+    COALESCE(p.portal_gst, 0.00) AS portal_gst_amt,
+    COALESCE(e.erp_gst, 0.00) - COALESCE(p.portal_gst, 0.00) AS gst_variance,
+    CASE 
+        WHEN p.invoice_no IS NULL THEN '3_Missing_in_GSTR2B'
+        WHEN e.invoice_no IS NULL THEN '4_Missing_in_ERP'
+        WHEN ABS(e.erp_gst - p.portal_gst) <= 1.00 THEN '1_Exact_Match'
+        ELSE '2_Tax_Value_Mismatch'
+    END AS recon_status
+FROM ERP_Clean e
+FULL OUTER JOIN Portal_Clean p
+    ON e.supplier_gstin = p.supplier_gstin
+   AND e.invoice_no = p.invoice_no
+ORDER BY recon_status, ABS(COALESCE(e.erp_gst, 0) - COALESCE(p.portal_gst, 0)) DESC;`
+      },
+      {
+        id: "p3",
+        company: "Razorpay / PhonePe / Cred",
+        difficulty: "Hard • Window LEAD/LAG",
+        title: "3. UPI Failed Transaction Recovery Within 10 Minutes",
+        prompt: "When a user's UPI payment fails (`status = 'FAILED'`), they often retry immediately. Find the percentage of failed UPI transactions that are followed by a `'SUCCESS'` transaction by the same `user_id` for the same `merchant_id` and `amount` within 10 minutes (600 seconds) on the very next attempt.",
+        schema: `Table: upi_transactions
+- txn_id (VARCHAR)
+- user_id (INT)
+- merchant_id (INT)
+- amount (DECIMAL(10,2))
+- txn_timestamp (TIMESTAMP)
+- status (VARCHAR) -- 'SUCCESS', 'FAILED'`,
+        hint: "Use `LEAD(status)` and `LEAD(txn_timestamp)` partitioned by `user_id, merchant_id, amount` ordered by `txn_timestamp`. Then filter to `status = 'FAILED'` and compute the ratio where `next_status = 'SUCCESS'` and time diff <= 600 seconds.",
+        solution: `WITH OrderedAttempts AS (
+    SELECT 
+        txn_id,
+        user_id,
+        merchant_id,
+        amount,
+        txn_timestamp,
+        status,
+        LEAD(status) OVER (
+            PARTITION BY user_id, merchant_id, amount 
+            ORDER BY txn_timestamp
+        ) AS next_status,
+        LEAD(txn_timestamp) OVER (
+            PARTITION BY user_id, merchant_id, amount 
+            ORDER BY txn_timestamp
+        ) AS next_txn_timestamp
+    FROM upi_transactions
+)
+SELECT 
+    COUNT(*) AS total_failed_txns,
+    COUNT(CASE 
+        WHEN next_status = 'SUCCESS' 
+         AND DATEDIFF(second, txn_timestamp, next_txn_timestamp) <= 600 
+        THEN 1 
+    END) AS recovered_within_10m,
+    ROUND(
+        100.0 * COUNT(CASE 
+            WHEN next_status = 'SUCCESS' 
+             AND DATEDIFF(second, txn_timestamp, next_txn_timestamp) <= 600 
+            THEN 1 
+        END) / NULLIF(COUNT(*), 0),
+        2
+    ) AS recovery_rate_pct
+FROM OrderedAttempts
+WHERE status = 'FAILED';`
+      },
+      {
+        id: "p4",
+        company: "Flipkart / Myntra",
+        difficulty: "Hard • Pareto 80/20",
+        title: "4. Pareto Principle: Top Products Driving 80% of Net Revenue",
+        prompt: "Management wants to identify the 'Vital Few' SKUs that cumulatively generate the top 80% of Net Revenue (Gross Sales minus Returns). Return `product_id`, `net_revenue`, `cumulative_revenue`, `total_company_revenue`, and `cumulative_pct` for all products up to the 80% threshold.",
+        schema: `Table: order_items
+- order_id (BIGINT)
+- product_id (INT)
+- gross_amount (DECIMAL(12,2))
+- return_amount (DECIMAL(12,2))`,
+        hint: "Aggregate `net_revenue` per `product_id` first in a CTE. Then calculate `SUM(net_revenue) OVER (ORDER BY net_revenue DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)` divided by `SUM(net_revenue) OVER ()`.",
+        solution: `WITH ProductRevenue AS (
+    SELECT 
+        product_id,
+        SUM(gross_amount - COALESCE(return_amount, 0)) AS net_revenue
+    FROM order_items
+    GROUP BY product_id
+    HAVING SUM(gross_amount - COALESCE(return_amount, 0)) > 0
+),
+CumulativePareto AS (
+    SELECT 
+        product_id,
+        net_revenue,
+        SUM(net_revenue) OVER (
+            ORDER BY net_revenue DESC, product_id ASC
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS cumulative_revenue,
+        SUM(net_revenue) OVER () AS total_company_revenue
+    FROM ProductRevenue
+)
+SELECT 
+    product_id,
+    net_revenue,
+    cumulative_revenue,
+    total_company_revenue,
+    ROUND(100.0 * cumulative_revenue / NULLIF(total_company_revenue, 0), 2) AS cumulative_pct
+FROM CumulativePareto
+WHERE (cumulative_revenue - net_revenue) / NULLIF(total_company_revenue, 0) < 0.80
+ORDER BY net_revenue DESC;`
+      },
+      {
+        id: "p5",
+        company: "Service IT / Product Screen",
+        difficulty: "Medium • Ranking & Ties",
+        title: "5. Department Top 2 Salaries with Headcount & Salary Share %",
+        prompt: "For every department that has at least 3 active employees, return the employees earning the Top 2 distinct salaries (`DENSE_RANK() <= 2`), along with their salary as a percentage of their department's total payroll and the department's active headcount.",
+        schema: `Table: employees
+- emp_id (INT)
+- emp_name (VARCHAR)
+- department_id (INT)
+- salary (DECIMAL(12,2))
+- is_active (BIT / BOOLEAN)`,
+        hint: "Compute `DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC)`, `SUM(salary) OVER (PARTITION BY department_id)`, and `COUNT(*) OVER (PARTITION BY department_id)` in a single CTE over active employees.",
+        solution: `WITH DeptStats AS (
+    SELECT 
+        emp_id,
+        emp_name,
+        department_id,
+        salary,
+        DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS sal_rank,
+        COUNT(*) OVER (PARTITION BY department_id) AS dept_headcount,
+        SUM(salary) OVER (PARTITION BY department_id) AS dept_total_payroll
+    FROM employees
+    WHERE is_active = 1
+)
+SELECT 
+    department_id,
+    emp_id,
+    emp_name,
+    salary,
+    sal_rank,
+    dept_headcount,
+    ROUND(100.0 * salary / NULLIF(dept_total_payroll, 0), 2) AS pct_of_dept_payroll
+FROM DeptStats
+WHERE dept_headcount >= 3
+  AND sal_rank <= 2
+ORDER BY department_id, sal_rank, emp_id;`
+      },
+      {
+        id: "p6",
+        company: "Indian Enterprise / Finance",
+        difficulty: "Medium-Hard • Apr-Mar FY",
+        title: "6. Indian Financial Year (Apr–Mar) YoY & QoQ Growth Table",
+        prompt: "Convert raw daily invoice dates into the Indian Financial Year (`FY2024-25`, `FY2025-26`) and Fiscal Quarter (`FQ1` to `FQ4`, where April–June is `FQ1`). Output each Fiscal Year, Fiscal Quarter, Quarterly Revenue, QoQ Growth %, and YoY Same-Quarter Growth %.",
+        schema: `Table: sales_invoices
+- invoice_id (BIGINT)
+- invoice_date (DATE)
+- net_amount (DECIMAL(14,2))`,
+        hint: "Shift `invoice_date` back by 3 months using `DATEADD(month, -3, invoice_date)`. The year of that shifted date is the FY start year, and its quarter is `FQ1–FQ4`. Then use `LAG(rev, 1)` for QoQ and `LAG(rev, 4)` (or self-join) for YoY.",
+        solution: `WITH FiscalTagged AS (
+    SELECT 
+        invoice_date,
+        net_amount,
+        EXTRACT(YEAR FROM DATEADD(month, -3, invoice_date)) AS fy_start_year,
+        EXTRACT(QUARTER FROM DATEADD(month, -3, invoice_date)) AS fq_num
+    FROM sales_invoices
+),
+QuarterlyAgg AS (
+    SELECT 
+        fy_start_year,
+        'FY' || fy_start_year || '-' || RIGHT(CAST(fy_start_year + 1 AS VARCHAR), 2) AS indian_fy,
+        'FQ' || fq_num AS fiscal_quarter,
+        fq_num,
+        SUM(net_amount) AS quarterly_rev
+    FROM FiscalTagged
+    GROUP BY fy_start_year, fq_num
+)
+SELECT 
+    indian_fy,
+    fiscal_quarter,
+    quarterly_rev,
+    LAG(quarterly_rev, 1) OVER (ORDER BY fy_start_year, fq_num) AS prev_qtr_rev,
+    ROUND(
+        100.0 * (quarterly_rev - LAG(quarterly_rev, 1) OVER (ORDER BY fy_start_year, fq_num))
+        / NULLIF(LAG(quarterly_rev, 1) OVER (ORDER BY fy_start_year, fq_num), 0), 2
+    ) AS qoq_growth_pct,
+    LAG(quarterly_rev, 4) OVER (ORDER BY fy_start_year, fq_num) AS prev_yr_same_qtr_rev,
+    ROUND(
+        100.0 * (quarterly_rev - LAG(quarterly_rev, 4) OVER (ORDER BY fy_start_year, fq_num))
+        / NULLIF(LAG(quarterly_rev, 4) OVER (ORDER BY fy_start_year, fq_num), 0), 2
+    ) AS yoy_qtr_growth_pct
+FROM QuarterlyAgg
+ORDER BY fy_start_year, fq_num;`
+      },
+      {
+        id: "p7",
+        company: "SaaS / D2C Analytics",
+        difficulty: "Hard • Cohort Retention",
+        title: "7. Customer Cohort Retention Matrix (M0, M1, M2, M3)",
+        prompt: "Group customers into monthly cohorts based on their very first purchase month (`cohort_month`). Calculate the total cohort size (`M0_Users`) and the percentage of that cohort that placed an order in Month +1 (`M1_Pct`), Month +2 (`M2_Pct`), and Month +3 (`M3_Pct`).",
+        schema: `Table: customer_orders
+- order_id (BIGINT)
+- customer_id (INT)
+- order_date (DATE)`,
+        hint: "Find `MIN(DATE_TRUNC('month', order_date)) OVER (PARTITION BY customer_id)` as `cohort_month`. Compute `DATEDIFF(month, cohort_month, order_month)` as `month_offset`, and use `COUNT(DISTINCT CASE WHEN month_offset = 1 THEN customer_id END)`.",
+        solution: `WITH UserCohorts AS (
+    SELECT 
+        customer_id,
+        DATE_TRUNC('month', order_date) AS activity_month,
+        MIN(DATE_TRUNC('month', order_date)) OVER (PARTITION BY customer_id) AS cohort_month
+    FROM customer_orders
+),
+CohortOffsets AS (
+    SELECT DISTINCT
+        customer_id,
+        cohort_month,
+        DATEDIFF(month, cohort_month, activity_month) AS month_offset
+    FROM UserCohorts
+    WHERE DATEDIFF(month, cohort_month, activity_month) BETWEEN 0 AND 3
+)
+SELECT 
+    cohort_month,
+    COUNT(DISTINCT CASE WHEN month_offset = 0 THEN customer_id END) AS m0_cohort_size,
+    ROUND(100.0 * COUNT(DISTINCT CASE WHEN month_offset = 1 THEN customer_id END) 
+        / NULLIF(COUNT(DISTINCT CASE WHEN month_offset = 0 THEN customer_id END), 0), 1) AS m1_retention_pct,
+    ROUND(100.0 * COUNT(DISTINCT CASE WHEN month_offset = 2 THEN customer_id END) 
+        / NULLIF(COUNT(DISTINCT CASE WHEN month_offset = 0 THEN customer_id END), 0), 1) AS m2_retention_pct,
+    ROUND(100.0 * COUNT(DISTINCT CASE WHEN month_offset = 3 THEN customer_id END) 
+        / NULLIF(COUNT(DISTINCT CASE WHEN month_offset = 0 THEN customer_id END), 0), 1) AS m3_retention_pct
+FROM CohortOffsets
+GROUP BY cohort_month
+ORDER BY cohort_month;`
+      },
+      {
+        id: "p8",
+        company: "HR & Workforce BI",
+        difficulty: "Hard • SCD Type 2 & Point-in-Time",
+        title: "8. Point-in-Time Historical Department Attribution",
+        prompt: "Employees transfer across departments over time (`dim_employee_history` is SCD Type 2 with `effective_start_date` and `effective_end_date`, where `NULL` end date means current). Join `fact_sales_commissions` (`emp_id`, `payout_date`, `commission_amt`) so every commission is attributed to the exact department the employee belonged to on `payout_date`.",
+        schema: `Table 1: dim_employee_history (emp_hist_sk INT, emp_id INT, dept_name VARCHAR, effective_start_date DATE, effective_end_date DATE)
+Table 2: fact_sales_commissions (payout_id INT, emp_id INT, payout_date DATE, commission_amt DECIMAL(10,2))`,
+        hint: "Use a Non-Equi Range Join: `ON f.emp_id = d.emp_id AND f.payout_date >= d.effective_start_date AND f.payout_date <= COALESCE(d.effective_end_date, '9999-12-31')`.",
+        solution: `SELECT 
+    d.dept_name,
+    COUNT(f.payout_id) AS payout_count,
+    SUM(f.commission_amt) AS total_attributed_commission
+FROM fact_sales_commissions f
+INNER JOIN dim_employee_history d
+    ON f.emp_id = d.emp_id
+   AND f.payout_date >= d.effective_start_date
+   AND f.payout_date <= COALESCE(d.effective_end_date, DATE '9999-12-31')
+GROUP BY d.dept_name
+ORDER BY total_attributed_commission DESC;`
+      },
+      {
+        id: "p9",
+        company: "Product / Clickstream",
+        difficulty: "Hard • Sessionization",
+        title: "9. 30-Minute User Clickstream Sessionization",
+        prompt: "Given raw mobile app events (`user_id`, `event_type`, `event_time`), group consecutive events for each user into distinct sessions. A new session begins whenever a user has been inactive for more than 30 minutes since their previous event. Output `user_id`, `global_session_id`, `session_start`, `session_end`, and `events_in_session`.",
+        schema: `Table: app_events
+- event_id (BIGINT)
+- user_id (INT)
+- event_type (VARCHAR)
+- event_time (TIMESTAMP)`,
+        hint: "Step 1: Use `LAG(event_time)` per `user_id`. Step 2: Create `is_new_session = CASE WHEN prev_time IS NULL OR DATEDIFF(minute, prev_time, event_time) > 30 THEN 1 ELSE 0 END`. Step 3: Run a cumulative `SUM(is_new_session) OVER (PARTITION BY user_id ORDER BY event_time)` to generate `user_session_num`.",
+        solution: `WITH LaggedEvents AS (
+    SELECT 
+        user_id,
+        event_type,
+        event_time,
+        LAG(event_time) OVER (PARTITION BY user_id ORDER BY event_time) AS prev_event_time
+    FROM app_events
+),
+FlaggedSessions AS (
+    SELECT 
+        user_id,
+        event_type,
+        event_time,
+        CASE 
+            WHEN prev_event_time IS NULL 
+              OR DATEDIFF(minute, prev_event_time, event_time) > 30 
+            THEN 1 
+            ELSE 0 
+        END AS is_new_session
+    FROM LaggedEvents
+),
+SessionAssigned AS (
+    SELECT 
+        user_id,
+        event_time,
+        SUM(is_new_session) OVER (
+            PARTITION BY user_id 
+            ORDER BY event_time 
+            ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+        ) AS session_seq_num
+    FROM FlaggedSessions
+)
+SELECT 
+    user_id,
+    user_id || '_S' || session_seq_num AS global_session_id,
+    MIN(event_time) AS session_start,
+    MAX(event_time) AS session_end,
+    DATEDIFF(second, MIN(event_time), MAX(event_time)) AS session_duration_sec,
+    COUNT(*) AS events_in_session
+FROM SessionAssigned
+GROUP BY user_id, session_seq_num
+ORDER BY user_id, session_start;`
+      },
+      {
+        id: "p10",
+        company: "Marketing Attribution",
+        difficulty: "Medium-Hard • First vs Last Touch",
+        title: "10. First-Touch vs Last-Touch Campaign Attribution",
+        prompt: "Before purchasing an order, a customer may click multiple marketing campaigns (`ad_Touchpoints`) within the 7 days prior to `order_timestamp`. For every converted order, identify both the **First-Touch Channel** and **Last-Touch Channel** within that 7-day lookback window in a single query.",
+        schema: `Table 1: orders (order_id INT, customer_id INT, order_timestamp TIMESTAMP, order_revenue DECIMAL(10,2))
+Table 2: ad_touchpoints (touch_id INT, customer_id INT, channel VARCHAR, click_timestamp TIMESTAMP)`,
+        hint: "Join `orders` to `ad_touchpoints` where `click_timestamp BETWEEN DATEADD(day, -7, order_timestamp) AND order_timestamp`, then use `FIRST_VALUE(channel)` and `LAST_VALUE(channel)` (or `ROW_NUMBER()` ASC & DESC).",
+        solution: `WITH RankedTouches AS (
+    SELECT 
+        o.order_id,
+        o.customer_id,
+        o.order_revenue,
+        t.channel,
+        ROW_NUMBER() OVER (PARTITION BY o.order_id ORDER BY t.click_timestamp ASC)  AS rn_first,
+        ROW_NUMBER() OVER (PARTITION BY o.order_id ORDER BY t.click_timestamp DESC) AS rn_last
+    FROM orders o
+    LEFT JOIN ad_touchpoints t
+        ON o.customer_id = t.customer_id
+       AND t.click_timestamp >= DATEADD(day, -7, o.order_timestamp)
+       AND t.click_timestamp <= o.order_timestamp
+)
+SELECT 
+    order_id,
+    customer_id,
+    order_revenue,
+    COALESCE(MAX(CASE WHEN rn_first = 1 THEN channel END), 'Organic / Direct') AS first_touch_channel,
+    COALESCE(MAX(CASE WHEN rn_last = 1  THEN channel END), 'Organic / Direct') AS last_touch_channel
+FROM RankedTouches
+GROUP BY order_id, customer_id, order_revenue;`
+      },
+      {
+        id: "p11",
+        company: "Finance / Banking",
+        difficulty: "Hard • Semi-Additive / Forward-Fill",
+        title: "11. Month-End Closing Balance When Account Has No Transactions on Last Day",
+        prompt: "A ledger table `account_balances` only records a row on dates when an account actually has a transaction (`account_id`, `txn_date`, `closing_balance`). If an account's last transaction in March was on March 18th, its March 31st month-end balance is still that March 18th balance. Write a query to find the accurate closing balance for every account as of `'2026-03-31'`.",
+        schema: `Table: account_balances
+- account_id (INT)
+- txn_date (DATE)
+- txn_seq (INT)
+- closing_balance (DECIMAL(14,2))`,
+        hint: "Filter `txn_date <= '2026-03-31'`, then rank rows per `account_id` by `txn_date DESC, txn_seq DESC` using `ROW_NUMBER()`, and pick `rn = 1`. (This is the SQL equivalent of DAX's `LASTNONBLANKVALUE`).",
+        solution: `WITH LatestBalanceAsOfCutoff AS (
+    SELECT 
+        account_id,
+        txn_date AS last_active_date,
+        closing_balance,
+        ROW_NUMBER() OVER (
+            PARTITION BY account_id 
+            ORDER BY txn_date DESC, txn_seq DESC
+        ) AS rn
+    FROM account_balances
+    WHERE txn_date <= DATE '2026-03-31'
+)
+SELECT 
+    account_id,
+    DATE '2026-03-31' AS reporting_month_end,
+    last_active_date,
+    closing_balance AS march_closing_balance
+FROM LatestBalanceAsOfCutoff
+WHERE rn = 1;`
+      },
+      {
+        id: "p12",
+        company: "Product GCC / Redshift Tuning",
+        difficulty: "Top 1% • Query Refactoring",
+        title: "12. Refactoring a Non-Sargable, Multi-Scan Legacy Query",
+        prompt: "An analyst wrote the slow query below on a 120M-row table, and it times out after 10 minutes. Rewrite it into a fast, Sargable, single-scan Top 1% query:\n\n`SELECT c.customer_id, (SELECT SUM(amount) FROM sales s1 WHERE s1.customer_id = c.customer_id AND YEAR(s1.sale_date) = 2025) AS rev_2025, (SELECT SUM(amount) FROM sales s2 WHERE s2.customer_id = c.customer_id AND YEAR(s2.sale_date) = 2026) AS rev_2026 FROM customers c WHERE c.customer_id NOT IN (SELECT customer_id FROM blacklist);`",
+        schema: `Tables:
+- sales (sale_id BIGINT, customer_id INT, sale_date DATE, amount DECIMAL(12,2)) -- Indexed/Sorted on sale_date
+- customers (customer_id INT, customer_name VARCHAR)
+- blacklist (customer_id INT NULL) -- Contains NULLs!`,
+        hint: "Fix 3 critical bugs/bottlenecks: 1) Replace correlated subqueries scanning `sales` twice with a single grouped join or conditional aggregation. 2) Replace `YEAR(sale_date) = ...` with Sargable date ranges (`>= '2025-01-01' AND < '2027-01-01'`). 3) Replace `NOT IN (SELECT ... FROM blacklist)` with `NOT EXISTS` so NULLs don't wipe out the result.",
+        solution: `SELECT 
+    c.customer_id,
+    SUM(CASE 
+        WHEN s.sale_date >= DATE '2025-01-01' AND s.sale_date < DATE '2026-01-01' 
+        THEN s.amount ELSE 0 
+    END) AS rev_2025,
+    SUM(CASE 
+        WHEN s.sale_date >= DATE '2026-01-01' AND s.sale_date < DATE '2027-01-01' 
+        THEN s.amount ELSE 0 
+    END) AS rev_2026
+FROM customers c
+LEFT JOIN sales s
+    ON c.customer_id = s.customer_id
+   -- Sargable range filter allows Index Seek / Redshift Zone Map pruning in 1 scan!
+   AND s.sale_date >= DATE '2025-01-01'
+   AND s.sale_date <  DATE '2027-01-01'
+WHERE NOT EXISTS (
+    -- NULL-safe anti-join
+    SELECT 1 
+    FROM blacklist b 
+    WHERE b.customer_id = c.customer_id
+)
+GROUP BY c.customer_id;`
+      }
+    ];
+
+    // =========================================================================
+    // 3. ADVANCED SQL & REDSHIFT CODE VAULT
+    // =========================================================================
+    const VAULT_SNIPPETS = [
+      {
+        category: "Amazon Redshift • DDL & Performance Architecture",
+        title: "Production Star-Schema DDL (DISTKEY, SORTKEY & AZ64)",
+        desc: "How to define a 200M+ row Fact table and Conformed Dimensions in Redshift to guarantee zero network redistribution (`DS_DIST_NONE`) and instant Zone-Map pruning.",
+        code: `-- 1. High-Volume Fact Table: Distribute on largest Join Key, Sort on Date Filter Key
+CREATE TABLE fact.sales_orders (
+    order_id          BIGINT        NOT NULL ENCODE az64,
+    order_date        DATE          NOT NULL ENCODE az64,
+    customer_id       BIGINT        NOT NULL ENCODE az64,
+    product_id        INT           NOT NULL ENCODE az64,
+    region_code       VARCHAR(10)   NOT NULL ENCODE zstd,
+    quantity          INT           NOT NULL ENCODE az64,
+    net_sales_inr     DECIMAL(14,2) NOT NULL ENCODE az64,
+    etl_loaded_at     TIMESTAMP     DEFAULT SYSDATE ENCODE az64
+)
+DISTSTYLE KEY
+DISTKEY (customer_id)          -- Co-locates with dim_customer (40M rows) on same slice
+COMPOUND SORTKEY (order_date, region_code); -- Enables 1MB Zone-Map skipping for Power BI
+
+-- 2. Large Dimension (40M rows): Co-distribute on the exact same DISTKEY
+CREATE TABLE dim.customer (
+    customer_id       BIGINT        NOT NULL ENCODE az64,
+    customer_name     VARCHAR(200)  ENCODE zstd,
+    state_name        VARCHAR(50)   ENCODE zstd,
+    gstin_registered  BOOLEAN       ENCODE runlength
+)
+DISTSTYLE KEY
+DISTKEY (customer_id)
+SORTKEY (customer_id);
+
+-- 3. Small Dimension (<1M rows): Broadcast to ALL nodes
+CREATE TABLE dim.product (
+    product_id        INT           NOT NULL ENCODE az64,
+    sku_code          VARCHAR(50)   ENCODE zstd,
+    category_name     VARCHAR(100)  ENCODE zstd
+)
+DISTSTYLE ALL
+SORTKEY (product_id);`
+      },
+      {
+        category: "Data Quality & BI Governance • Automated Audit",
+        title: "Pre-Refresh Source-to-Staging Reconciliation Assertion",
+        desc: "Run this SQL check in your pipeline before triggering Power Automate / Power BI REST API refresh. Prevents broken or duplicated upstream loads from polluting executive dashboards.",
+        code: `WITH SourceMetrics AS (
+    SELECT 
+        COUNT(*) AS src_row_count,
+        COUNT(DISTINCT invoice_no) AS src_distinct_invoices,
+        SUM(net_amount) AS src_total_revenue
+    FROM erp_raw.daily_sales
+    WHERE invoice_date >= CURRENT_DATE - 7
+),
+MartMetrics AS (
+    SELECT 
+        COUNT(*) AS mart_row_count,
+        COUNT(DISTINCT invoice_no) AS mart_distinct_invoices,
+        SUM(net_amount) AS mart_total_revenue
+    FROM bi_mart.vw_fact_sales
+    WHERE invoice_date >= CURRENT_DATE - 7
+)
+SELECT 
+    s.src_row_count,
+    m.mart_row_count,
+    s.src_total_revenue,
+    m.mart_total_revenue,
+    ABS(s.src_total_revenue - m.mart_total_revenue) AS revenue_drift,
+    CASE 
+        WHEN m.mart_row_count = 0 THEN 'CRITICAL_FAIL: Empty Mart Load'
+        WHEN m.mart_row_count <> m.mart_distinct_invoices THEN 'CRITICAL_FAIL: Duplicate Primary Keys'
+        WHEN ABS(s.src_total_revenue - m.mart_total_revenue) > 0.01 THEN 'CRITICAL_FAIL: Revenue Reconciliation Mismatch'
+        ELSE 'PASS: Ready for Power BI Refresh'
+    END AS pipeline_gate_status
+FROM SourceMetrics s
+CROSS JOIN MartMetrics m;`
+      },
+      {
+        category: "Recursive CTE • Date Spine & Missing Data Padding",
+        title: "Generating a Continuous Calendar Spine to Fill Missing Dates",
+        desc: "When a store has zero sales on a Tuesday, raw `GROUP BY` drops that Tuesday completely, breaking 7-day rolling averages and Power BI date axes. Use a Recursive Date Spine.",
+        code: `WITH RECURSIVE DateSpine AS (
+    SELECT DATE '2026-04-01' AS calendar_date
+    UNION ALL
+    SELECT DATEADD(day, 1, calendar_date)
+    FROM DateSpine
+    WHERE calendar_date < DATE '2026-04-30'
+),
+DailyStoreSales AS (
+    SELECT 
+        store_id,
+        sale_date,
+        SUM(net_amount) AS daily_sales
+    FROM fact.sales
+    WHERE sale_date >= DATE '2026-04-01' AND sale_date <= DATE '2026-04-30'
+    GROUP BY store_id, sale_date
+)
+SELECT 
+    st.store_id,
+    d.calendar_date,
+    COALESCE(s.daily_sales, 0.00) AS daily_sales_zero_filled,
+    AVG(COALESCE(s.daily_sales, 0.00)) OVER (
+        PARTITION BY st.store_id 
+        ORDER BY d.calendar_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) AS true_7day_moving_avg
+FROM DateSpine d
+CROSS JOIN (SELECT DISTINCT store_id FROM dim.stores) st
+LEFT JOIN DailyStoreSales s
+    ON d.calendar_date = s.sale_date
+   AND st.store_id = s.store_id
+ORDER BY st.store_id, d.calendar_date;`
+      },
+      {
+        category: "SQL Server / T-SQL • Safe Deduplication in Place",
+        title: "Deleting Physical Duplicate Rows from a Staging Table via CTE",
+        desc: "A classic Indian technical interview question: 'How do you delete duplicate rows from a table that has no primary key while keeping the latest record?'",
+        code: `-- In T-SQL (SQL Server / Azure SQL / Fabric Warehouse), you can DELETE directly from a CTE!
+WITH DuplicateFinder AS (
+    SELECT 
+        gst_invoice_no,
+        customer_id,
+        invoice_amount,
+        modified_timestamp,
+        ROW_NUMBER() OVER (
+            PARTITION BY gst_invoice_no 
+            ORDER BY modified_timestamp DESC
+        ) AS row_num
+    FROM staging.gst_invoices_raw
+)
+DELETE FROM DuplicateFinder
+WHERE row_num > 1;
+
+-- In PostgreSQL / Amazon Redshift (where DELETE from CTE is not supported directly):
+DELETE FROM staging.gst_invoices_raw
+WHERE ctid NOT IN (
+    SELECT MAX(ctid)
+    FROM staging.gst_invoices_raw
+    GROUP BY gst_invoice_no
+);`
+      }
+    ];
+
+    // =========================================================================
+    // 4. TOP 1% SCORECARD (10 PILLARS) & 4-WEEK PLAN
+    // =========================================================================
+    const SQL_SCORECARD = [
+      { id: "sq_1", name: "1. Execution Order & NULL Safety", desc: "Explain the 9-step logical query order and write NULL-safe `NOT EXISTS`, `COALESCE`, and `NULLIF` queries without hesitation." },
+      { id: "sq_2", name: "2. Join Row-Count Math & Anti-Joins", desc: "Calculate exact output row counts for INNER/LEFT/FULL joins with duplicate keys & NULLs in <60s, and place outer-join filters in `ON` vs `WHERE` accurately." },
+      { id: "sq_3", name: "3. Single-Scan Conditional Aggregation", desc: "Pivot rows into columns, compute multi-stage conversion funnels, and solve relational division (`HAVING COUNT(CASE...)`) in a single table scan." },
+      { id: "sq_4", name: "4. Window Ranking, Offsets & Frames", desc: "Solve Top-N per group (`DENSE_RANK`), MoM growth (`LAG`), and explain `ROWS BETWEEN` vs `RANGE BETWEEN` frame behavior on ties." },
+      { id: "sq_5", name: "5. Gaps & Islands + Sessionization", desc: "Write the `date - ROW_NUMBER()` consecutive streak pattern and the 30-minute `LAG + SUM()` clickstream sessionization pattern from scratch." },
+      { id: "sq_6", name: "6. Indian FY (Apr–Mar) & Cohort Retention", desc: "Tag any transaction with Indian FY & Quarter using the `-3 months` shift and build a Month-0 to Month-3 customer retention matrix." },
+      { id: "sq_7", name: "7. GST & Financial Ledger Reconciliation", desc: "Write a `FULL OUTER JOIN` two-way reconciliation query between ERP books and GSTR-2B / bank statements with variance buckets." },
+      { id: "sq_8", name: "8. Sargability & Execution Plan Tuning", desc: "Refactor non-sargable date/string predicates, explain Clustered vs Covering Non-Clustered indexes, and distinguish Hash, Merge, and Nested Loop joins." },
+      { id: "sq_9", name: "9. Redshift / Cloud DW Internals", desc: "Design `DISTKEY`, `SORTKEY`, and `DISTSTYLE ALL` schemas in Amazon Redshift and diagnose `DS_BCAST_INNER` / `DS_DIST_BOTH` skew." },
+      { id: "sq_10", name: "10. Live 45-Minute Timed Coding Screen", desc: "Solve 4 unseen medium-hard Indian business SQL scenarios in 45 minutes on a plain text editor without syntax hints." }
+    ];
+
+    const FOUR_WEEK_PLAN = [
+      { week: 1, title: "Execution Internals, NULL Traps, Joins & Conditional Aggregation", modules: "Modules 1, 2 & 3", goal: "Master join row-count math, Left Anti-Joins, and single-scan CASE WHEN pivoting.", target: "Solve Arena Problems #2, #5, #10" },
+      { week: 2, title: "Window Functions, Frames, Gaps & Islands & Sessionization", modules: "Modules 4 & 5", goal: "Master ROW_NUMBER/DENSE_RANK, LAG/LEAD, ROWS vs RANGE, and consecutive streak detection.", target: "Solve Arena Problems #1, #3, #4, #9" },
+      { week: 3, title: "Indian FY (Apr–Mar), GST Recon, Cohorts & SCD Type 2", modules: "Modules 6 & 7", goal: "Build Indian fiscal rollups, GSTR-2B reconciliation, cohort tables, and point-in-time joins.", target: "Solve Arena Problems #6, #7, #8, #11" },
+      { week: 4, title: "Query Tuning, Sargability, Redshift Internals & Timed Mocks", modules: "Modules 8, 9 & 10", goal: "Refactor slow queries, master Redshift DISTKEY/SORTKEY, and pass the 10/10 Readiness Gate.", target: "Solve Arena Problem #12 + 2 Full Timed Mocks" }
+    ];
+
+    // =========================================================================
+    // 5. STATE MANAGEMENT (LOCALSTORAGE)
+    // =========================================================================
+    const STORAGE_KEY = "rihas_sql_top1_mastery_v1";
+    let appState = {
+      checkedItems: {},      // { "sql_m1_learn_0": true, "sql_m1_scen_0": true, "sql_m1_test": true, "week_1": true }
+      arenaSolved: {},       // { "p1": true, ... }
+      arenaCode: {},         // { "p1": "SELECT ...", ... }
+      scorecard: {},         // { "sq_1": true, ... }
+      moduleNotes: {},       // { "sql_m1": "..." }
+      activePhase: "all",
+      activeProblemId: "p1"
+    };
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          appState = { ...appState, ...JSON.parse(raw) };
+        }
+      } catch (e) {
+        console.warn("localStorage read error", e);
+      }
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn("localStorage save error", e);
+      }
+      updateGlobalStats();
+    }
+
+    function toggleCheck(key) {
+      appState.checkedItems[key] = !appState.checkedItems[key];
+      saveState();
+      renderSyllabus();
+      renderRoadmap();
+    }
+
+    function toggleArenaSolved(probId) {
+      appState.arenaSolved[probId] = !appState.arenaSolved[probId];
+      saveState();
+      renderArena();
+    }
+
+    function saveArenaDraft(probId, val) {
+      appState.arenaCode[probId] = val;
+      saveState();
+    }
+
+    function toggleScorecard(id) {
+      appState.scorecard[id] = !appState.scorecard[id];
+      saveState();
+      renderScorecard();
+    }
+
+    function saveModuleNote(modId, val) {
+      appState.moduleNotes[modId] = val;
+      saveState();
+    }
+
+    // =========================================================================
+    // 6. UI RENDER FUNCTIONS
+    // =========================================================================
+    function updateGlobalStats() {
+      let totalLearn = 0, doneLearn = 0;
+      let totalScen = 0, doneScen = 0;
+      let totalGates = SQL_MODULES.length, doneGates = 0;
+
+      SQL_MODULES.forEach(m => {
+        m.learn.forEach((_, i) => {
+          totalLearn++;
+          if (appState.checkedItems[`${m.id}_learn_${i}`]) doneLearn++;
+        });
+        m.scenarios.forEach((_, i) => {
+          totalScen++;
+          if (appState.checkedItems[`${m.id}_scen_${i}`]) doneScen++;
+        });
+        if (appState.checkedItems[`${m.id}_test`]) doneGates++;
+      });
+
+      const arenaDone = ARENA_PROBLEMS.filter(p => appState.arenaSolved[p.id]).length;
+      const totalAll = totalLearn + totalScen + totalGates + ARENA_PROBLEMS.length;
+      const doneAll = doneLearn + doneScen + doneGates + arenaDone;
+      const pct = totalAll > 0 ? Math.round((doneAll / totalAll) * 100) : 0;
+
+      document.getElementById("global-progress-text").textContent = `${pct}%`;
+      document.getElementById("global-progress-bar").style.width = `${pct}%`;
+      document.getElementById("stat-concepts").textContent = `${doneLearn} / ${totalLearn}`;
+      document.getElementById("stat-scenarios").textContent = `${doneScen} / ${totalScen}`;
+      document.getElementById("stat-arena").textContent = `${arenaDone} / ${ARENA_PROBLEMS.length}`;
+      document.getElementById("stat-gates").textContent = `${doneGates} / ${totalGates}`;
+
+      const scCount = SQL_SCORECARD.filter(s => appState.scorecard[s.id]).length;
+      document.getElementById("scorecard-badge").textContent = `${scCount}/10`;
+    }
+
+    function renderSyllabus() {
+      const container = document.getElementById("syllabus-container");
+      const query = (document.getElementById("module-search")?.value || "").toLowerCase().trim();
+
+      const filtered = SQL_MODULES.filter(m => {
+        if (appState.activePhase !== "all" && m.phase !== appState.activePhase) return false;
+        if (!query) return true;
+        const text = [m.title, m.phaseName, ...m.learn, ...m.scenarios, m.masteryTest, m.blueprint].join(" ").toLowerCase();
+        return text.includes(query);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="glass-panel p-8 rounded-2xl text-center text-slate-400">No SQL modules match your filter.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(m => {
+        const lTotal = m.learn.length;
+        const lDone = m.learn.filter((_, i) => appState.checkedItems[`${m.id}_learn_${i}`]).length;
+        const sTotal = m.scenarios.length;
+        const sDone = m.scenarios.filter((_, i) => appState.checkedItems[`${m.id}_scen_${i}`]).length;
+        const tDone = !!appState.checkedItems[`${m.id}_test`];
+
+        const modTotal = lTotal + sTotal + 1;
+        const modDone = lDone + sDone + (tDone ? 1 : 0);
+        const modPct = Math.round((modDone / modTotal) * 100);
+
+        return `
+          <div class="glass-panel rounded-2xl border ${tDone ? 'border-emerald-500/40' : 'border-slate-800'} overflow-hidden transition">
+            <!-- Header -->
+            <div class="p-5 sm:p-6 bg-slate-900/70 border-b border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1.5">
+                  <span class="text-xs font-mono font-bold uppercase px-2 py-0.5 rounded bg-slate-800 text-sql-cyan">Module ${m.num}</span>
+                  <span class="text-xs text-slate-400 font-medium">${m.phaseName}</span>
+                  <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-red-500/15 text-red-400 border border-red-500/30">Priority: ${m.priority}</span>
+                  ${tDone ? `<span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">✓ Gate Passed</span>` : ''}
+                </div>
+                <h3 class="text-lg sm:text-xl font-bold text-white">${m.title}</h3>
+              </div>
+
+              <div class="flex items-center gap-4 shrink-0">
+                <div class="text-right">
+                  <div class="text-xs text-slate-400">Module Mastery</div>
+                  <div class="text-sm font-mono font-bold ${modPct === 100 ? 'text-emerald-400' : 'text-sql-cyan'}">${modDone}/${modTotal} (${modPct}%)</div>
+                </div>
+                <div class="w-24 h-2 bg-slate-800 rounded-full overflow-hidden">
+                  <div class="h-full ${modPct === 100 ? 'bg-emerald-400' : 'bg-sql-cyan'} transition-all" style="width: ${modPct}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Body -->
+            <div class="p-5 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+              <!-- Left 7 Cols: Deep Concepts -->
+              <div class="lg:col-span-7 space-y-3">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Top 1% Concepts & Engine Rules (${lDone}/${lTotal})</h4>
+                <div class="space-y-2">
+                  ${m.learn.map((item, idx) => {
+                    const key = `${m.id}_learn_${idx}`;
+                    const checked = appState.checkedItems[key] ? "checked" : "";
+                    return `
+                      <label class="flex items-start gap-3 p-2.5 rounded-xl bg-slate-900/50 hover:bg-slate-900 border border-slate-800/80 cursor-pointer transition">
+                        <input type="checkbox" onchange="toggleCheck('${key}')" ${checked} class="custom-checkbox mt-0.5 w-4 h-4 rounded accent-cyan-400 shrink-0">
+                        <span class="text-sm text-slate-200 leading-snug">${escapeHtml(item)}</span>
+                      </label>
+                    `;
+                  }).join("")}
+                </div>
+              </div>
+
+              <!-- Right 5 Cols: Indian Scenarios + Blueprint + Gate -->
+              <div class="lg:col-span-5 flex flex-col justify-between space-y-4">
+                <div class="space-y-3">
+                  <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400">🇮🇳 Indian Interview Scenarios (${sDone}/${sTotal})</h4>
+                  <div class="space-y-2">
+                    ${m.scenarios.map((scen, idx) => {
+                      const key = `${m.id}_scen_${idx}`;
+                      const checked = appState.checkedItems[key] ? "checked" : "";
+                      return `
+                        <label class="flex items-start gap-3 p-3 rounded-xl bg-emerald-950/20 hover:bg-emerald-950/30 border border-emerald-500/20 cursor-pointer transition">
+                          <input type="checkbox" onchange="toggleCheck('${key}')" ${checked} class="custom-checkbox mt-0.5 w-4 h-4 rounded accent-emerald-400 shrink-0">
+                          <span class="text-xs sm:text-sm text-slate-200 leading-snug">${escapeHtml(scen)}</span>
+                        </label>
+                      `;
+                    }).join("")}
+                  </div>
+
+                  <details class="group bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+                    <summary class="px-4 py-2.5 text-xs font-semibold text-sql-cyan cursor-pointer flex items-center justify-between hover:bg-slate-800/60">
+                      <span>💡 View Senior SQL Blueprint & Trap Breakdown</span>
+                      <span class="group-open:rotate-180 transition-transform">▼</span>
+                    </summary>
+                    <div class="p-4 border-t border-slate-800 text-xs text-slate-300 font-mono whitespace-pre-line leading-relaxed bg-black/40">${escapeHtml(m.blueprint)}</div>
+                  </details>
+                </div>
+
+                <div class="space-y-3 pt-2">
+                  <div class="p-4 rounded-xl ${tDone ? 'bg-emerald-500/10 border border-emerald-500/40' : 'bg-cyan-500/10 border border-cyan-500/30'}">
+                    <div class="text-xs font-bold uppercase tracking-wider ${tDone ? 'text-emerald-300' : 'text-sql-cyan'} mb-1">🏆 Module ${m.num} Mastery Gate</div>
+                    <p class="text-xs text-slate-200 leading-relaxed mb-3">${escapeHtml(m.masteryTest)}</p>
+                    <label class="inline-flex items-center gap-2.5 px-3.5 py-2 rounded-lg ${tDone ? 'bg-emerald-400 text-black' : 'bg-slate-900 text-white border border-slate-700'} text-xs font-bold cursor-pointer transition">
+                      <input type="checkbox" onchange="toggleCheck('${m.id}_test')" ${tDone ? 'checked' : ''} class="w-4 h-4 accent-black">
+                      <span>${tDone ? 'Mastery Gate Verified!' : 'Mark Mastery Test Complete'}</span>
+                    </label>
+                  </div>
+
+                  <textarea
+                    rows="2"
+                    oninput="saveModuleNote('${m.id}', this.value)"
+                    placeholder="Personal SQL notes or edge cases for Module ${m.num}..."
+                    class="w-full bg-slate-900/90 border border-slate-800 rounded-xl p-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sql-cyan font-mono"
+                  >${escapeHtml(appState.moduleNotes[m.id] || '')}</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function filterPhase(phase) {
+      appState.activePhase = phase;
+      document.querySelectorAll(".phase-btn").forEach(btn => {
+        btn.className = "phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition";
+      });
+      const activeBtn = document.getElementById(`phase-btn-${phase}`);
+      if (activeBtn) {
+        activeBtn.className = "phase-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-sql-cyan text-black transition";
+      }
+      renderSyllabus();
+    }
+
+    function selectArenaProblem(probId) {
+      appState.activeProblemId = probId;
+      renderArena();
+    }
+
+    function renderArena() {
+      const listContainer = document.getElementById("arena-list-container");
+      const workContainer = document.getElementById("arena-workspace-container");
+
+      listContainer.innerHTML = ARENA_PROBLEMS.map(p => {
+        const isCurrent = p.id === appState.activeProblemId;
+        const isSolved = !!appState.arenaSolved[p.id];
+        return `
+          <div onclick="selectArenaProblem('${p.id}')" class="p-3.5 rounded-xl border cursor-pointer transition ${isCurrent ? 'bg-cyan-950/40 border-sql-cyan' : 'glass-panel border-slate-800 hover:border-slate-700'}">
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-[11px] font-mono font-semibold text-sql-cyan">${escapeHtml(p.company)}</span>
+              <span class="text-[11px] px-2 py-0.5 rounded font-semibold ${isSolved ? 'bg-emerald-500/20 text-emerald-300' : 'bg-slate-800 text-slate-400'}">
+                ${isSolved ? '✓ Solved' : p.difficulty}
+              </span>
+            </div>
+            <h4 class="text-xs sm:text-sm font-bold text-white leading-snug">${escapeHtml(p.title)}</h4>
+          </div>
+        `;
+      }).join("");
+
+      const activeProb = ARENA_PROBLEMS.find(p => p.id === appState.activeProblemId) || ARENA_PROBLEMS[0];
+      const solved = !!appState.arenaSolved[activeProb.id];
+      const savedDraft = appState.arenaCode[activeProb.id] || `-- Write your Top 1% SQL query for: ${activeProb.title}\n-- Clarify grain, handle NULLs with COALESCE/NULLIF, and use modular CTEs:\n\nWITH Step1 AS (\n    SELECT \n        \n)\nSELECT * FROM Step1;`;
+
+      workContainer.innerHTML = `
+        <div class="glass-panel rounded-2xl border border-slate-800 p-6 space-y-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+            <div>
+              <div class="flex items-center gap-2 mb-1">
+                <span class="px-2.5 py-0.5 rounded bg-cyan-500/20 text-sql-cyan font-mono text-xs font-bold">${escapeHtml(activeProb.company)}</span>
+                <span class="text-xs text-amber-300 font-semibold">${escapeHtml(activeProb.difficulty)}</span>
+              </div>
+              <h3 class="text-lg sm:text-xl font-bold text-white">${escapeHtml(activeProb.title)}</h3>
+            </div>
+            <label class="inline-flex items-center gap-2 px-4 py-2 rounded-xl ${solved ? 'bg-emerald-400 text-black' : 'bg-slate-800 text-slate-200 border border-slate-700'} text-xs font-bold cursor-pointer shrink-0 transition">
+              <input type="checkbox" onchange="toggleArenaSolved('${activeProb.id}')" ${solved ? 'checked' : ''} class="w-4 h-4 accent-black">
+              <span>${solved ? 'Solved Without Notes!' : 'Mark as Solved'}</span>
+            </label>
+          </div>
+
+          <!-- Business Prompt & Schema -->
+          <div class="space-y-3">
+            <p class="text-sm text-slate-200 leading-relaxed whitespace-pre-line">${escapeHtml(activeProb.prompt)}</p>
+            <div class="p-3.5 rounded-xl bg-black/50 border border-slate-800 font-mono text-xs text-emerald-300 whitespace-pre-line">${escapeHtml(activeProb.schema)}</div>
+          </div>
+
+          <!-- Live SQL Editor Scratchpad -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between">
+              <label class="text-xs font-bold uppercase tracking-wider text-slate-400">Your SQL Live Coding Scratchpad (Auto-Saved)</label>
+              <span class="text-[11px] text-slate-500">Practice writing without IntelliSense</span>
+            </div>
+            <textarea
+              rows="10"
+              oninput="saveArenaDraft('${activeProb.id}', this.value)"
+              class="w-full bg-black/70 border border-slate-700 rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-100 focus:outline-none focus:border-sql-cyan leading-relaxed"
+            >${escapeHtml(savedDraft)}</textarea>
+          </div>
+
+          <!-- Hint & Official Solution Accordions -->
+          <div class="space-y-3 pt-1">
+            <details class="group bg-slate-900/90 border border-slate-800 rounded-xl overflow-hidden">
+              <summary class="px-4 py-2.5 text-xs font-semibold text-amber-300 cursor-pointer flex items-center justify-between hover:bg-slate-800/60">
+                <span>🧭 View Interviewer Hint & Edge-Case Checklist</span>
+                <span class="group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="p-4 border-t border-slate-800 text-xs text-slate-300 leading-relaxed">${escapeHtml(activeProb.hint)}</div>
+            </details>
+
+            <details class="group bg-slate-900/90 border border-emerald-500/30 rounded-xl overflow-hidden">
+              <summary class="px-4 py-2.5 text-xs font-semibold text-emerald-400 cursor-pointer flex items-center justify-between hover:bg-slate-800/60">
+                <span>✅ Reveal Top 1% Production SQL Solution</span>
+                <span class="group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div class="p-4 border-t border-slate-800 bg-black/70 relative">
+                <button onclick="copyArenaSolution('${activeProb.id}')" id="arena-copy-${activeProb.id}" class="absolute right-4 top-4 text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium">
+                  📋 Copy Solution
+                </button>
+                <pre class="text-xs font-mono text-emerald-200 overflow-x-auto leading-relaxed pr-24"><code>${escapeHtml(activeProb.solution)}</code></pre>
+              </div>
+            </details>
+          </div>
+        </div>
+      `;
+    }
+
+    function copyArenaSolution(probId) {
+      const prob = ARENA_PROBLEMS.find(p => p.id === probId);
+      if (!prob) return;
+      navigator.clipboard.writeText(prob.solution);
+      const btn = document.getElementById(`arena-copy-${probId}`);
+      if (btn) {
+        btn.textContent = "✓ Copied!";
+        setTimeout(() => { btn.textContent = "📋 Copy Solution"; }, 1800);
+      }
+    }
+
+    function renderVault() {
+      const container = document.getElementById("vault-container");
+      container.innerHTML = VAULT_SNIPPETS.map((item, idx) => `
+        <div class="glass-panel rounded-2xl border border-slate-800 flex flex-col justify-between overflow-hidden">
+          <div class="p-5 border-b border-slate-800">
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span class="text-xs font-mono font-semibold text-sql-cyan">${escapeHtml(item.category)}</span>
+              <button onclick="copyVaultCode(${idx})" id="vault-copy-${idx}" class="text-xs px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition">
+                📋 Copy SQL
+              </button>
+            </div>
+            <h3 class="text-base font-bold text-white">${escapeHtml(item.title)}</h3>
+            <p class="text-xs text-slate-400 mt-1">${escapeHtml(item.desc)}</p>
+          </div>
+          <pre class="p-4 bg-black/60 text-xs font-mono text-slate-200 overflow-x-auto leading-relaxed flex-1"><code>${escapeHtml(item.code)}</code></pre>
+        </div>
+      `).join("");
+    }
+
+    function copyVaultCode(idx) {
+      navigator.clipboard.writeText(VAULT_SNIPPETS[idx].code);
+      const btn = document.getElementById(`vault-copy-${idx}`);
+      btn.textContent = "✓ Copied!";
+      btn.classList.add("text-emerald-400");
+      setTimeout(() => {
+        btn.textContent = "📋 Copy SQL";
+        btn.classList.remove("text-emerald-400");
+      }, 1800);
+    }
+
+    function renderScorecard() {
+      const grid = document.getElementById("scorecard-grid");
+      const count = SQL_SCORECARD.filter(s => appState.scorecard[s.id]).length;
+
+      document.getElementById("scorecard-big-number").textContent = `${count} / 10`;
+      const pill = document.getElementById("scorecard-status-pill");
+      if (count === 10) {
+        pill.textContent = "Top 1% SQL Ready!";
+        pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+      } else if (count >= 7) {
+        pill.textContent = "Senior Tier Ready";
+        pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-cyan-500/20 text-sql-cyan border border-cyan-500/40";
+      } else {
+        pill.textContent = "Building Mastery";
+        pill.className = "px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30";
+      }
+
+      grid.innerHTML = SQL_SCORECARD.map(s => {
+        const active = !!appState.scorecard[s.id];
+        return `
+          <div onclick="toggleScorecard('${s.id}')" class="p-5 rounded-2xl border cursor-pointer transition flex items-start gap-4 ${active ? 'bg-emerald-950/25 border-emerald-500/50' : 'glass-panel border-slate-800 hover:border-slate-700'}">
+            <div class="w-7 h-7 rounded-lg flex items-center justify-center font-bold text-sm shrink-0 mt-0.5 ${active ? 'bg-emerald-400 text-black' : 'bg-slate-800 text-slate-400'}">
+              ${active ? '✓' : ''}
+            </div>
+            <div>
+              <h3 class="font-bold text-base ${active ? 'text-emerald-300' : 'text-white'}">${escapeHtml(s.name)}</h3>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">${escapeHtml(s.desc)}</p>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderRoadmap() {
+      const container = document.getElementById("weeks-container");
+      container.innerHTML = FOUR_WEEK_PLAN.map(w => {
+        const key = `sql_week_${w.week}`;
+        const done = !!appState.checkedItems[key];
+        return `
+          <div class="p-5 rounded-2xl border transition flex flex-col justify-between ${done ? 'bg-emerald-950/20 border-emerald-500/40' : 'bg-slate-900/80 border-slate-800'}">
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="px-2.5 py-1 rounded-md text-xs font-mono font-bold bg-cyan-500/20 text-sql-cyan">WEEK ${w.week}</span>
+                <label class="flex items-center gap-2 text-xs font-semibold text-slate-300 cursor-pointer">
+                  <input type="checkbox" onchange="toggleCheck('${key}')" ${done ? 'checked' : ''} class="w-4 h-4 accent-emerald-400">
+                  <span>Complete</span>
+                </label>
+              </div>
+              <div class="text-xs font-mono text-emerald-400 mb-1">${escapeHtml(w.modules)}</div>
+              <h4 class="font-bold text-white text-sm mb-2">${escapeHtml(w.title)}</h4>
+              <p class="text-xs text-slate-300 leading-relaxed mb-3">${escapeHtml(w.goal)}</p>
+            </div>
+            <div class="p-3 rounded-xl bg-black/40 border border-slate-800/90">
+              <div class="text-[11px] uppercase tracking-wider text-sql-cyan font-bold">Arena Milestone</div>
+              <div class="text-xs text-slate-200 mt-0.5">${escapeHtml(w.target)}</div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    // =========================================================================
+    // 7. TAB SWITCHING, TIMER & BACKUP
+    // =========================================================================
+    function switchTab(tabId) {
+      ["syllabus", "arena", "vault", "scorecard", "roadmap"].forEach(id => {
+        document.getElementById(`view-${id}`).classList.add("hidden");
+        const btn = document.getElementById(`tab-${id}`);
+        btn.className = "nav-tab px-5 py-3 text-sm font-medium border-b-2 border-transparent text-slate-400 hover:text-slate-200 whitespace-nowrap flex items-center gap-2";
+      });
+      document.getElementById(`view-${tabId}`).classList.remove("hidden");
+      const activeBtn = document.getElementById(`tab-${tabId}`);
+      activeBtn.className = "nav-tab px-5 py-3 text-sm font-semibold border-b-2 border-sql-cyan text-sql-cyan whitespace-nowrap flex items-center gap-2";
+    }
+
+    let timerSeconds = 45 * 60;
+    let timerInterval = null;
+
+    function updateTimerUI() {
+      const m = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+      const s = String(timerSeconds % 60).padStart(2, "0");
+      document.getElementById("timer-display").textContent = `${m}:${s}`;
+    }
+
+    function toggleTimer() {
+      const btn = document.getElementById("timer-btn");
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        btn.textContent = "Resume";
+      } else {
+        btn.textContent = "Pause";
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerUI();
+          } else {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            btn.textContent = "Time Up!";
+          }
+        }, 1000);
+      }
+    }
+
+    function resetTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      timerSeconds = 45 * 60;
+      updateTimerUI();
+      document.getElementById("timer-btn").textContent = "Start 45m Drill";
+    }
+
+    function openDataModal() {
+      document.getElementById("data-modal").classList.remove("hidden");
+    }
+
+    function closeDataModal() {
+      document.getElementById("data-modal").classList.add("hidden");
+    }
+
+    function downloadBackupJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appState, null, 2));
+      const a = document.createElement("a");
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", `rihas-sql-top1-backup-${new Date().toISOString().slice(0,10)}.json`);
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function resetAllProgress() {
+      if (confirm("Are you sure you want to reset all SQL progress and saved queries?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadState();
+      updateGlobalStats();
+      renderSyllabus();
+      renderArena();
+      renderVault();
+      renderScorecard();
+      renderRoadmap();
+    });
+  </script>
+</body>
+</html>
